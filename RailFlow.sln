@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RailFlow.Api", "RailFlow.Api\RailFlow.Api.csproj", "{3684763C-1C0E-4271-871A-9D1841C412F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RailFlow.Application", "RailFlow.Application\RailFlow.Application.csproj", "{BAC602BA-D123-4E0D-BFF0-E83657B8CEE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Railflow.Core", "Railflow.Core\Railflow.Core.csproj", "{700E9236-2FAF-4CE2-88EA-C76970BF834B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RailFlow.Infrastructure", "RailFlow.Infrastructure\RailFlow.Infrastructure.csproj", "{182A883F-E2B6-4C66-A1A2-A2A9F0DBBB2F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3684763C-1C0E-4271-871A-9D1841C412F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3684763C-1C0E-4271-871A-9D1841C412F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3684763C-1C0E-4271-871A-9D1841C412F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3684763C-1C0E-4271-871A-9D1841C412F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAC602BA-D123-4E0D-BFF0-E83657B8CEE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAC602BA-D123-4E0D-BFF0-E83657B8CEE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAC602BA-D123-4E0D-BFF0-E83657B8CEE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAC602BA-D123-4E0D-BFF0-E83657B8CEE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{700E9236-2FAF-4CE2-88EA-C76970BF834B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{700E9236-2FAF-4CE2-88EA-C76970BF834B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{700E9236-2FAF-4CE2-88EA-C76970BF834B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{700E9236-2FAF-4CE2-88EA-C76970BF834B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{182A883F-E2B6-4C66-A1A2-A2A9F0DBBB2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{182A883F-E2B6-4C66-A1A2-A2A9F0DBBB2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{182A883F-E2B6-4C66-A1A2-A2A9F0DBBB2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{182A883F-E2B6-4C66-A1A2-A2A9F0DBBB2F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
