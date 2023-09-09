@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using RailFlow.Infrastructure.DAL;
+using RailFlow.Infrastructure.Exceptions;
 
 namespace RailFlow.Infrastructure;
 
@@ -13,6 +14,7 @@ public static class Extensions
         // Add services to the container.
 
         services.AddControllers();
+        services.AddSingleton<ExceptionMiddleware>();
 
         services.AddPostgres(configuration);
         
