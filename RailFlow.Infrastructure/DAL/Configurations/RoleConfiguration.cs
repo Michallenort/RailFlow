@@ -4,7 +4,7 @@ using Railflow.Core.Entities;
 
 namespace RailFlow.Infrastructure.DAL.Configurations;
 
-public class RoleConfiguration : IEntityTypeConfiguration<Role>
+internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
     public void Configure(EntityTypeBuilder<Role> builder)
     {

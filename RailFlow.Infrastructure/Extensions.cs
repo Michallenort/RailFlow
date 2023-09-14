@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using RailFlow.Infrastructure.DAL;
 using RailFlow.Infrastructure.Exceptions;
+using RailFlow.Infrastructure.Security;
 
 namespace RailFlow.Infrastructure;
 
@@ -17,6 +18,7 @@ public static class Extensions
         services.AddSingleton<ExceptionMiddleware>();
 
         services.AddPostgres(configuration);
+        services.AddSecurity();
         
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
