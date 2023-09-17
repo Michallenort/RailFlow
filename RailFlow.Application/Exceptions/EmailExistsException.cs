@@ -2,7 +2,7 @@ using Railflow.Core.Exceptions;
 
 namespace RailFlow.Application.Exceptions;
 
-public class EmailExistsException : CustomException
+public sealed class EmailExistsException : CustomException
 {
     public string Email { get; set; }
     

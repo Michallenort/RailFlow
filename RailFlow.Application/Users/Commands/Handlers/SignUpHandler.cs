@@ -7,7 +7,7 @@ using Railflow.Core.Repositories;
 
 namespace RailFlow.Application.Users.Commands.Handlers;
 
-public class SignUpHandler : IRequestHandler<SignUp>
+internal sealed class SignUpHandler : IRequestHandler<SignUp>
 {
     private readonly IUserRepository _userRepository;
     private readonly IPasswordManager _passwordManager;

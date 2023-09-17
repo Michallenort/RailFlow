@@ -4,5 +4,5 @@ namespace RailFlow.Application.Security;
 
 public interface IAuthenticator
 {
-    JwtDto CreateToken(int userId, string role);
+    JwtDto CreateToken(Guid userId, string role);
 }

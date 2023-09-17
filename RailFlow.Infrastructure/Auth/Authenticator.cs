@@ -27,7 +27,7 @@ internal sealed class Authenticator : IAuthenticator
                 SecurityAlgorithms.HmacSha256);
     }
     
-    public JwtDto CreateToken(int userId, string role)
+    public JwtDto CreateToken(Guid userId, string role)
     {
         var now = DateTime.UtcNow;
         

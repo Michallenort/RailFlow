@@ -4,7 +4,7 @@ using Railflow.Core.Repositories;
 
 namespace RailFlow.Application.Users.Validators;
 
-public class SignUpValidator : AbstractValidator<SignUp>
+internal sealed class SignUpValidator : AbstractValidator<SignUp>
 {
     public SignUpValidator()
     {

@@ -13,9 +13,9 @@ internal sealed class UserRepository : IUserRepository
         _users = dbContext.Users;
     }
 
-    public Task<User?> GetByEmailAsync(string? email)
-        => _users.SingleOrDefaultAsync(x => x.Email == email); 
+    public async Task<User?> GetByEmailAsync(string? email)
+        => await _users.SingleOrDefaultAsync(x => x.Email == email); 
 
     public async Task AddAsync(User user)
-        => _users.AddAsync(user);
+        => await _users.AddAsync(user);
 }

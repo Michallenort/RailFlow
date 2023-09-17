@@ -18,6 +18,7 @@ internal static class Extensions
         var postgresOptions = configuration.GetOptions<PostgresOptions>(OptionsSectionName);
         services.AddDbContext<TrainDbContext>(x => x.UseNpgsql(postgresOptions.ConnectionString));
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddHostedService<Seeder>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         
