@@ -12,8 +12,8 @@ using RailFlow.Infrastructure.DAL;
 namespace RailFlow.Infrastructure.Migrations
 {
     [DbContext(typeof(TrainDbContext))]
-    [Migration("20230909112232_AddUserAndRole")]
-    partial class AddUserAndRole
+    [Migration("20230917142814_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,11 +44,9 @@ namespace RailFlow.Infrastructure.Migrations
 
             modelBuilder.Entity("Railflow.Core.Entities.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("timestamp without time zone");

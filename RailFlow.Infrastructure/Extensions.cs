@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using RailFlow.Infrastructure.Auth;
 using RailFlow.Infrastructure.DAL;
 using RailFlow.Infrastructure.Exceptions;
 using RailFlow.Infrastructure.Security;
@@ -16,18 +17,22 @@ public static class Extensions
 
         services.AddControllers();
         services.AddSingleton<ExceptionMiddleware>();
+        services.AddHttpContextAccessor();
 
         services.AddPostgres(configuration);
         services.AddSecurity();
         
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+        services.AddAuth(configuration);
         
         return services;
     }
     
     public static WebApplication UseInfrastructure(this WebApplication app)
     {
+        app.UseMiddleware<ExceptionMiddleware>();
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
@@ -36,6 +41,7 @@ public static class Extensions
         }
         
         app.UseHttpsRedirection();
+        app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
         

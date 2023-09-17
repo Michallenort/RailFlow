@@ -48,18 +48,9 @@ internal sealed class Seeder : IHostedService
     {
         var roles = new List<Role>()
         {
-            new Role()
-            {
-                Name = "User"
-            },
-            new Role()
-            {
-                Name = "Employee"  
-            },
-            new Role()
-            {
-                Name = "Supervisor"
-            }
+            new Role(1, "User"),
+            new Role(2, "Employee"),
+            new Role(3, "Supervisor")
         };
 
         return roles;
@@ -69,38 +60,16 @@ internal sealed class Seeder : IHostedService
     {
         var users = new List<User>()
         {
-            new User()
-            {
-                Email = "user1@gmail.com",
-                FirstName = "User 1",
-                LastName = "User",
-                DateOfBirth = DateTime.SpecifyKind(new DateTime(1990, 1, 1), DateTimeKind.Utc),
-                Nationality = "Poland",
-                RoleId = 1
-            },
-            new User()
-            {
-                Email = "employee1@gmail.com",
-                FirstName = "Employee 1",
-                LastName = "User",
-                DateOfBirth = DateTime.SpecifyKind(new DateTime(1998, 2, 10), DateTimeKind.Utc),
-                Nationality = "Poland",
-                RoleId = 2
-            },
-            new User()
-            {
-                Email = "supervisor1@gmail.com",
-                FirstName = "Supervisor 1",
-                LastName = "User",
-                DateOfBirth = DateTime.SpecifyKind(new DateTime(1988, 3, 13), DateTimeKind.Utc),
-                Nationality = "USA",
-                RoleId = 3
-            }
+            new User(Guid.NewGuid(), "user1@gmail.com", "User 1", "User", 
+                new DateTime(1990, 1, 1), "Poland", 
+                _passwordManager.Secure("userPassword1"), 1),
+            new User(Guid.NewGuid(), "employee1@gmail.com", "Employee 1", "Employee", 
+                new DateTime(1986, 10, 1), "Germany", 
+                _passwordManager.Secure("employeePassword1"), 2),
+            new User(Guid.NewGuid(), "supervisor1@gmail.com", "Supervisor 1", "Supervisor", 
+                new DateTime(1970, 5, 12), "USA", 
+                _passwordManager.Secure("supervisorPassword1"), 3)
         };
-        
-        users[0].PasswordHash = _passwordManager.Secure("userPassword1");
-        users[1].PasswordHash = _passwordManager.Secure("employeePassword1");
-        users[2].PasswordHash = _passwordManager.Secure("supervisorPassword1");
         
         return users;
     }

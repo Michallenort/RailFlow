@@ -1,3 +1,4 @@
+using FluentValidation;
 using Humanizer;
 using Microsoft.AspNetCore.Http;
 using Railflow.Core.Exceptions;
@@ -28,6 +29,8 @@ internal sealed class ExceptionMiddleware : IMiddleware
         var (statusCode, error) = exception switch
         {
             CustomException => (StatusCodes.Status400BadRequest,
+                new Error(exception.GetType().Name.Underscore().Replace("_exception", string.Empty), exception.Message)),
+            ValidationException => (StatusCodes.Status400BadRequest,
                 new Error(exception.GetType().Name.Underscore().Replace("_exception", string.Empty), exception.Message)),
             _ => (StatusCodes.Status500InternalServerError, new Error("error", "There was an error."))
         };
