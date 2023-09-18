@@ -13,6 +13,15 @@ internal sealed class UserRepository : IUserRepository
         _users = dbContext.Users;
     }
 
+    public async Task<IEnumerable<User>> GetAllAsync() 
+        => await _users
+            .AsNoTracking()
+            .ToListAsync();
+
+    public async Task<User?> GetByIdAsync(Guid id)
+        => await _users.Include(x => x.Role)
+            .SingleOrDefaultAsync(x => x.Id == id);
+
     public async Task<User?> GetByEmailAsync(string? email)
         => await _users.SingleOrDefaultAsync(x => x.Email == email); 
 

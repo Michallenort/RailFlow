@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RailFlow.Application.Security;
 using RailFlow.Application.Users.Commands;
 using RailFlow.Application.Users.DTO;
+using RailFlow.Application.Users.Queries;
 
 namespace RailFlow.API.Controllers;
 
@@ -18,6 +19,22 @@ public class UserController : ControllerBase
     {
         _mediator = mediator;
         _tokenStorage = tokenStorage;
+    }
+    
+    [Authorize(Roles = "Supervisor")]
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
+    {
+        var users = await _mediator.Send(new GetUsers());
+        return Ok(users);
+    }
+    
+    [Authorize]
+    [HttpGet("{userId:guid}")]
+    public async Task<ActionResult<UserDetailsDto>> GetUserDetails(Guid userId)
+    {
+        var user = await _mediator.Send(new GetUserDetails(userId));
+        return Ok(user);
     }
 
     [AllowAnonymous]
