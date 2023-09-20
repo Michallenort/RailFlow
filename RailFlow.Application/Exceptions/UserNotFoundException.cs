@@ -4,9 +4,9 @@ namespace RailFlow.Application.Exceptions;
 
 public class UserNotFoundException : CustomException
 {
-    public Guid Id { get; set; }
+    public Guid? Id { get; set; }
     
-    public UserNotFoundException(Guid id) : base($"User with id: '{id}' does not exists.")
+    public UserNotFoundException(Guid? id) : base($"User with id: '{id!.Value}' does not exists.")
     {
         Id = id;
     }

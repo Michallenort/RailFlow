@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Railflow.Core.Services;
 using RailFlow.Infrastructure.Auth;
+using RailFlow.Infrastructure.Services;
 using RailFlow.Infrastructure.DAL;
 using RailFlow.Infrastructure.Exceptions;
 using RailFlow.Infrastructure.Security;
@@ -26,6 +28,7 @@ public static class Extensions
         services.AddSwaggerGen();
 
         services.AddAuth(configuration);
+        services.AddScoped<IContextService, ContextService>();
         
         return services;
     }

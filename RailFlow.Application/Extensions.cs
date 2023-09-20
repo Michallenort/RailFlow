@@ -13,8 +13,6 @@ public static class Extensions
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-
-        
         // services.Scan(s => s.FromAssemblies(typeof(IRequestHandler<>).Assembly)
         //     .AddClasses(c => c.AssignableTo(typeof(IRequestHandler<>)))
         //     .AsImplementedInterfaces()
@@ -26,6 +24,7 @@ public static class Extensions
         });
         
         services.AddScoped<IValidator<SignUp>, SignUpValidator>();
+        services.AddScoped<IValidator<UpdateAccount>, UpdateAccountValidator>();
         services.AddScoped<IUserMapper, UserMapper>();
         
         return services;

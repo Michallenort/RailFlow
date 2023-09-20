@@ -29,4 +29,12 @@ public class User
         PasswordHash = passwordHash;
         RoleId = roleId;
     }
+    
+    public void Update(string? email, string? firstName, string? lastName, DateTime? dateOfBirth)
+    {
+        Email = email ?? Email;
+        FirstName = firstName ?? FirstName;
+        LastName = lastName ?? LastName;
+        DateOfBirth = dateOfBirth ?? DateOfBirth;
+    }
 }

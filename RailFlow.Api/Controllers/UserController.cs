@@ -5,6 +5,7 @@ using RailFlow.Application.Security;
 using RailFlow.Application.Users.Commands;
 using RailFlow.Application.Users.DTO;
 using RailFlow.Application.Users.Queries;
+using Railflow.Core.Services;
 
 namespace RailFlow.API.Controllers;
 
@@ -29,11 +30,19 @@ public class UserController : ControllerBase
         return Ok(users);
     }
     
-    [Authorize]
+    [Authorize(Roles = "Supervisor")]
     [HttpGet("{userId:guid}")]
     public async Task<ActionResult<UserDetailsDto>> GetUserDetails(Guid userId)
     {
         var user = await _mediator.Send(new GetUserDetails(userId));
+        return Ok(user);
+    }
+    
+    [Authorize]
+    [HttpGet("account-details")]
+    public async Task<ActionResult<UserDetailsDto>> GetAccountDetails()
+    {
+        var user = await _mediator.Send(new GetAccountDetails());
         return Ok(user);
     }
 
@@ -52,5 +61,29 @@ public class UserController : ControllerBase
         await _mediator.Send(command);
         var jwt = _tokenStorage.Get();
         return Ok(jwt);
+    }
+    
+    [Authorize]
+    [HttpPut("update-account")]
+    public async Task<ActionResult> UpdateAccount(UpdateAccount command)
+    {
+        await _mediator.Send(command);
+        return Ok();
+    }
+
+    [Authorize(Roles = "Supervisor")]
+    [HttpDelete("{userId:guid}")]
+    public async Task<ActionResult> DeleteUser(Guid userId)
+    {
+        await _mediator.Send(new DeleteUser(userId));
+        return NoContent();
+    }
+    
+    [Authorize]
+    [HttpDelete("delete-account")]
+    public async Task<ActionResult> DeleteAccount()
+    {
+        await _mediator.Send(new DeleteAccount());
+        return NoContent();
     }
 }
