@@ -35,8 +35,14 @@ internal sealed class Authenticator : IAuthenticator
         {
             new(JwtRegisteredClaimNames.Sub, userId.ToString()),
             new(JwtRegisteredClaimNames.UniqueName, userId.ToString()),
-            new(ClaimTypes.Role, role)
+            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUnixTimeMilliseconds().ToString())
         };
+        
+        if (!string.IsNullOrWhiteSpace(role))
+        {
+            claims.Add(new Claim(ClaimTypes.Role, role));
+        }
         
         var expires = now.Add(_expiry);
         var jwt = new JwtSecurityToken(_issuer, _audience, claims, now, expires, _signingCredentials);

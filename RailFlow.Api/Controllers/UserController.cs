@@ -6,6 +6,7 @@ using RailFlow.Application.Users.Commands;
 using RailFlow.Application.Users.DTO;
 using RailFlow.Application.Users.Queries;
 using Railflow.Core.Services;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace RailFlow.API.Controllers;
 
@@ -24,6 +25,9 @@ public class UserController : ControllerBase
     
     [Authorize(Roles = "Supervisor")]
     [HttpGet]
+    [SwaggerOperation("Get all users")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
     {
         var users = await _mediator.Send(new GetUsers());
@@ -32,6 +36,10 @@ public class UserController : ControllerBase
     
     [Authorize(Roles = "Supervisor")]
     [HttpGet("{userId:guid}")]
+    [SwaggerOperation("Get user details")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<UserDetailsDto>> GetUserDetails(Guid userId)
     {
         var user = await _mediator.Send(new GetUserDetails(userId));
@@ -40,6 +48,10 @@ public class UserController : ControllerBase
     
     [Authorize]
     [HttpGet("account-details")]
+    [SwaggerOperation("Get account details")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<UserDetailsDto>> GetAccountDetails()
     {
         var user = await _mediator.Send(new GetAccountDetails());
@@ -48,6 +60,9 @@ public class UserController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("sign-up")]
+    [SwaggerOperation("Sign up")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> SignUp(SignUp command)
     {
         await _mediator.Send(command);
@@ -56,6 +71,9 @@ public class UserController : ControllerBase
     
     [AllowAnonymous]
     [HttpPost("sign-in")]
+    [SwaggerOperation("Sign in")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<JwtDto>> SignIn(SignIn command)
     {
         await _mediator.Send(command);
@@ -65,6 +83,10 @@ public class UserController : ControllerBase
     
     [Authorize]
     [HttpPut("update-account")]
+    [SwaggerOperation("Update account")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UpdateAccount(UpdateAccount command)
     {
         await _mediator.Send(command);
@@ -73,6 +95,10 @@ public class UserController : ControllerBase
 
     [Authorize(Roles = "Supervisor")]
     [HttpDelete("{userId:guid}")]
+    [SwaggerOperation("Delete user")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteUser(Guid userId)
     {
         await _mediator.Send(new DeleteUser(userId));
@@ -81,6 +107,9 @@ public class UserController : ControllerBase
     
     [Authorize]
     [HttpDelete("delete-account")]
+    [SwaggerOperation("Delete account")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteAccount()
     {
         await _mediator.Send(new DeleteAccount());

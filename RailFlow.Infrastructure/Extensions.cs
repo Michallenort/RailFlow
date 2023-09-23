@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Railflow.Core.Services;
 using RailFlow.Infrastructure.Auth;
 using RailFlow.Infrastructure.Services;
@@ -25,7 +27,17 @@ public static class Extensions
         services.AddSecurity();
         
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        
+        services.AddSwaggerGen(swagger =>
+        {
+            swagger.EnableAnnotations();
+            swagger.CustomSchemaIds(x => x.FullName);
+            swagger.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "RailFlow API",
+                Version = "v1"
+            });
+        });
 
         services.AddAuth(configuration);
         services.AddScoped<IContextService, ContextService>();
@@ -36,12 +48,15 @@ public static class Extensions
     public static WebApplication UseInfrastructure(this WebApplication app)
     {
         app.UseMiddleware<ExceptionMiddleware>();
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
+        
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        app.UseReDoc(reDoc =>
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
+            reDoc.RoutePrefix = "docs";
+            reDoc.SpecUrl("/swagger/v1/swagger.json");
+            reDoc.DocumentTitle = "API";
+        });
         
         app.UseHttpsRedirection();
         app.UseAuthentication();

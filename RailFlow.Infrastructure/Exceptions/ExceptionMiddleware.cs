@@ -32,6 +32,8 @@ internal sealed class ExceptionMiddleware : IMiddleware
                 new Error(exception.GetType().Name.Underscore().Replace("_exception", string.Empty), exception.Message)),
             ValidationException => (StatusCodes.Status400BadRequest,
                 new Error(exception.GetType().Name.Underscore().Replace("_exception", string.Empty), exception.Message)),
+            NotFoundException => (StatusCodes.Status404NotFound,
+                new Error(exception.GetType().Name.Underscore().Replace("_exception", string.Empty), exception.Message)),
             _ => (StatusCodes.Status500InternalServerError, new Error("error", "There was an error."))
         };
         
