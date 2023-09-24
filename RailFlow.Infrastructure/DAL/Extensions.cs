@@ -19,6 +19,7 @@ internal static class Extensions
         services.AddDbContext<TrainDbContext>(x => x.UseNpgsql(postgresOptions.ConnectionString));
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IStationRepository, StationRepository>();
         services.AddHostedService<Seeder>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         

@@ -3,6 +3,9 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 using MediatR.NotificationPublishers;
+using RailFlow.Application.Stations;
+using RailFlow.Application.Stations.Commands;
+using RailFlow.Application.Stations.Validators;
 using RailFlow.Application.Users;
 using RailFlow.Application.Users.Commands;
 using RailFlow.Application.Users.Validators;
@@ -25,7 +28,9 @@ public static class Extensions
         
         services.AddScoped<IValidator<SignUp>, SignUpValidator>();
         services.AddScoped<IValidator<UpdateAccount>, UpdateAccountValidator>();
+        services.AddScoped<IValidator<CreateStation>, CreateStationValidator>();
         services.AddScoped<IUserMapper, UserMapper>();
+        services.AddScoped<IStationMapper, StationMapper>();
         
         return services;
     }
