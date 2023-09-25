@@ -81,6 +81,18 @@ public class UserController : ControllerBase
         return Ok(jwt);
     }
     
+    [Authorize(Roles = "Supervisor")]
+    [HttpPost("create-user")]
+    [SwaggerOperation("Create user")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult> CreateUser(CreateUser command)
+    {
+        await _mediator.Send(command);
+        return Ok();
+    }
+    
     [Authorize]
     [HttpPut("update-account")]
     [SwaggerOperation("Update account")]

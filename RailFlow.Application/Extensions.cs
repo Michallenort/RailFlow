@@ -27,6 +27,7 @@ public static class Extensions
         });
         
         services.AddScoped<IValidator<SignUp>, SignUpValidator>();
+        services.AddScoped<IValidator<CreateUser>, CreateUserValidator>();
         services.AddScoped<IValidator<UpdateAccount>, UpdateAccountValidator>();
         services.AddScoped<IValidator<CreateStation>, CreateStationValidator>();
         services.AddScoped<IUserMapper, UserMapper>();

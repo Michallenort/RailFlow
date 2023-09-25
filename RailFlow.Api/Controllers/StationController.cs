@@ -51,8 +51,8 @@ public class StationController : ControllerBase
         await _mediator.Send(command);
         return Ok();
     }
-    [AllowAnonymous]
-    //[Authorize(Roles = "Supervisor")]
+    
+    [Authorize(Roles = "Supervisor")]
     [HttpPost("create-stations")]
     [SwaggerOperation("Create set of stations")]
     [ProducesResponseType(StatusCodes.Status200OK)]
