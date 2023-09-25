@@ -8,6 +8,8 @@ internal sealed class StationConfiguration : IEntityTypeConfiguration<Station>
 {
     public void Configure(EntityTypeBuilder<Station> builder)
     {
+        builder.HasKey(x => x.Id);
+        
         builder.Property(x => x.Name)
             .IsRequired()
             .HasMaxLength(50);

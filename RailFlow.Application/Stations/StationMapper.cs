@@ -4,9 +4,9 @@ using Railflow.Core.ValueObjects;
 
 namespace RailFlow.Application.Stations;
 
-public interface IStationMapper
+internal interface IStationMapper
 {
-    IEnumerable<StationDto> MapStationDtos(IEnumerable<Station> station);
+    IEnumerable<StationDto> MapStationDtos(IEnumerable<Station> stations);
     StationDetailsDto MapStationDetailsDto(Station station);
     Station MapStation(CreateStationDto stationDto);
     IEnumerable<Station> MapStations(IEnumerable<CreateStationDto> stationDtos);
@@ -14,8 +14,8 @@ public interface IStationMapper
 
 internal sealed class StationMapper : IStationMapper
 {
-    public IEnumerable<StationDto> MapStationDtos(IEnumerable<Station> station)
-        => station.Select(x => new StationDto(x.Id, x.Name));
+    public IEnumerable<StationDto> MapStationDtos(IEnumerable<Station> stations)
+        => stations.Select(x => new StationDto(x.Id, x.Name));
 
     public StationDetailsDto MapStationDetailsDto(Station station)
         => new(station.Id, station.Name, station.Address.Country, station.Address.City, station.Address.Street);

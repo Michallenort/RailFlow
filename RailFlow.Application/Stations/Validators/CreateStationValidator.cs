@@ -9,18 +9,26 @@ public class CreateStationValidator : AbstractValidator<CreateStation>
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(50);
+            .WithMessage("Station name must not be empty.")
+            .MaximumLength(50)
+            .WithMessage("Station name must be less than 50 characters long.");
 
         RuleFor(x => x.Country)
             .NotEmpty()
-            .MaximumLength(25);
+            .WithMessage("Country must not be empty.")
+            .MaximumLength(25)
+            .WithMessage("Country must be less than 25 characters long.");
 
         RuleFor(x => x.City)
             .NotEmpty()
-            .MaximumLength(25);
+            .WithMessage("City must not be empty.")
+            .MaximumLength(25)
+            .WithMessage("City must be less than 25 characters long.");
 
         RuleFor(x => x.Street)
             .NotEmpty()
-            .MaximumLength(50);
+            .WithMessage("Street must not be empty.")
+            .MaximumLength(50)
+            .WithMessage("Street must be less than 50 characters long.");
     }
 }

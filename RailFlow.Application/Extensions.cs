@@ -6,6 +6,9 @@ using MediatR.NotificationPublishers;
 using RailFlow.Application.Stations;
 using RailFlow.Application.Stations.Commands;
 using RailFlow.Application.Stations.Validators;
+using RailFlow.Application.Trains;
+using RailFlow.Application.Trains.Commands;
+using RailFlow.Application.Trains.Validators;
 using RailFlow.Application.Users;
 using RailFlow.Application.Users.Commands;
 using RailFlow.Application.Users.Validators;
@@ -30,8 +33,10 @@ public static class Extensions
         services.AddScoped<IValidator<CreateUser>, CreateUserValidator>();
         services.AddScoped<IValidator<UpdateAccount>, UpdateAccountValidator>();
         services.AddScoped<IValidator<CreateStation>, CreateStationValidator>();
+        services.AddScoped<IValidator<CreateTrain>, CreateTrainValidator>();
         services.AddScoped<IUserMapper, UserMapper>();
         services.AddScoped<IStationMapper, StationMapper>();
+        services.AddScoped<ITrainMapper, TrainMapper>();
         
         return services;
     }

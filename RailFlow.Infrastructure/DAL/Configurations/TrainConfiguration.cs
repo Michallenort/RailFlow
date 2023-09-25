@@ -4,13 +4,16 @@ using Railflow.Core.Entities;
 
 namespace RailFlow.Infrastructure.DAL.Configurations;
 
-internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
+internal sealed class TrainConfiguration : IEntityTypeConfiguration<Train>
 {
-    public void Configure(EntityTypeBuilder<Role> builder)
+    public void Configure(EntityTypeBuilder<Train> builder)
     {
         builder.HasKey(x => x.Id);
-        
-        builder.Property(x => x.Name)
+
+        builder.Property(x => x.Number)
+            .IsRequired();
+
+        builder.Property(x => x.Capacity)
             .IsRequired();
     }
 }

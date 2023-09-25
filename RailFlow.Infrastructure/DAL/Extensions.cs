@@ -20,6 +20,7 @@ internal static class Extensions
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IStationRepository, StationRepository>();
+        services.AddScoped<ITrainRepository, TrainRepository>();
         services.AddHostedService<Seeder>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         
