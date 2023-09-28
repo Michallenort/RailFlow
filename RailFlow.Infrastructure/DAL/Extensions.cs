@@ -17,10 +17,14 @@ internal static class Extensions
         services.Configure<PostgresOptions>(configuration.GetRequiredSection(OptionsSectionName));
         var postgresOptions = configuration.GetOptions<PostgresOptions>(OptionsSectionName);
         services.AddDbContext<TrainDbContext>(x => x.UseNpgsql(postgresOptions.ConnectionString));
+        
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IStationRepository, StationRepository>();
         services.AddScoped<ITrainRepository, TrainRepository>();
+        services.AddScoped<IRouteRepository, RouteRepository>();
+        services.AddScoped<IStopRepository, StopRepository>();
+        
         services.AddHostedService<Seeder>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RailFlow.Infrastructure.DAL;
@@ -11,9 +12,11 @@ using RailFlow.Infrastructure.DAL;
 namespace RailFlow.Infrastructure.Migrations
 {
     [DbContext(typeof(TrainDbContext))]
-    partial class TrainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230928165442_AddRouteAndStopEntities")]
+    partial class AddRouteAndStopEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,9 +51,6 @@ namespace RailFlow.Infrastructure.Migrations
                     b.Property<Guid>("EndStationId")
                         .HasColumnType("uuid");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(25)
@@ -68,8 +68,7 @@ namespace RailFlow.Infrastructure.Migrations
 
                     b.HasIndex("StartStationId");
 
-                    b.HasIndex("TrainId")
-                        .IsUnique();
+                    b.HasIndex("TrainId");
 
                     b.ToTable("Routes");
                 });
@@ -194,8 +193,8 @@ namespace RailFlow.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Railflow.Core.Entities.Train", "Train")
-                        .WithOne("AssignedRoute")
-                        .HasForeignKey("Railflow.Core.Entities.Route", "TrainId")
+                        .WithMany()
+                        .HasForeignKey("TrainId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -252,7 +251,7 @@ namespace RailFlow.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Railflow.Core.Entities.Station", "Station")
-                        .WithMany("Stops")
+                        .WithMany()
                         .HasForeignKey("StationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -276,16 +275,6 @@ namespace RailFlow.Infrastructure.Migrations
             modelBuilder.Entity("Railflow.Core.Entities.Route", b =>
                 {
                     b.Navigation("Stops");
-                });
-
-            modelBuilder.Entity("Railflow.Core.Entities.Station", b =>
-                {
-                    b.Navigation("Stops");
-                });
-
-            modelBuilder.Entity("Railflow.Core.Entities.Train", b =>
-                {
-                    b.Navigation("AssignedRoute");
                 });
 #pragma warning restore 612, 618
         }

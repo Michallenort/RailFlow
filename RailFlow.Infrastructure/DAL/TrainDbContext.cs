@@ -9,6 +9,8 @@ internal sealed class TrainDbContext : DbContext
     public DbSet<Role> Roles { get; set; }
     public DbSet<Station> Stations { get; set; }
     public DbSet<Train> Trains { get; set; }
+    public DbSet<Route> Routes { get; set; }
+    public DbSet<Stop> Stops { get; set; }
     
     public TrainDbContext(DbContextOptions<TrainDbContext> options) : base(options)
     {

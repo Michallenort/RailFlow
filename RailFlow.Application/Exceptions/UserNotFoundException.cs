@@ -2,7 +2,7 @@ using Railflow.Core.Exceptions;
 
 namespace RailFlow.Application.Exceptions;
 
-public class UserNotFoundException : NotFoundException
+internal sealed class UserNotFoundException : NotFoundException
 {
     public Guid? Id { get; set; }
     

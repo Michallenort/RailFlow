@@ -2,7 +2,7 @@ using Railflow.Core.Exceptions;
 
 namespace RailFlow.Application.Exceptions;
 
-public class StationNotFoundException : NotFoundException
+internal sealed class StationNotFoundException : NotFoundException
 {
     public Guid Id { get; set; }
     

@@ -32,5 +32,10 @@ internal sealed class StationConfiguration : IEntityTypeConfiguration<Station>
                     .HasMaxLength(50);
             }
         );
+        
+        builder.HasMany(x => x.Stops)
+            .WithOne(x => x.Station)
+            .HasForeignKey(x => x.StationId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

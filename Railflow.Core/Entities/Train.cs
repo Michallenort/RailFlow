@@ -6,6 +6,7 @@ public class Train
     public int Number { get; private set; }
     public float? MaxSpeed { get; private set; }
     public int Capacity { get; private set; }
+    public Route? AssignedRoute { get; private set; }
 
     public Train(Guid id, int number, float? maxSpeed, int capacity)
     {

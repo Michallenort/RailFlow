@@ -15,5 +15,9 @@ internal sealed class TrainConfiguration : IEntityTypeConfiguration<Train>
 
         builder.Property(x => x.Capacity)
             .IsRequired();
+
+        builder.HasOne(x => x.AssignedRoute)
+            .WithOne(x => x.Train)
+            .HasForeignKey<Route>(x => x.TrainId);
     }
 }
