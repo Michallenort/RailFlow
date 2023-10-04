@@ -18,14 +18,11 @@ internal sealed class CreateStationsHandler : IRequestHandler<CreateStations>
     public async Task Handle(CreateStations request, CancellationToken cancellationToken)
     {
         var stations = _stationMapper.MapStations(request.Stations).ToList();
-
-        foreach (var station in stations)
-        {
-            if (await _stationRepository.GetByNameAsync(station.Name) is not null)
-            {
-                stations.Remove(station);
-            }
-        }
+        
+        var allStations = await _stationRepository.GetAllAsync();
+        var allStationsNames = allStations.Select(x => x.Name);
+        
+        stations = stations.Where(station => !allStationsNames.Contains(station.Name)).ToList();
         
         await _stationRepository.AddRangeAsync(stations);
     }

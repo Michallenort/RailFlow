@@ -12,7 +12,15 @@ internal sealed class RouteRepository : IRouteRepository
     {
         _routes = dbContext.Routes;
     }
-    
+
+    public async Task<IEnumerable<Route>> GetAllAsync()
+        => await _routes
+            .AsNoTracking()
+            .ToListAsync();
+
+    public async Task<Route?> GetByIdAsync(Guid id)
+        => await _routes.SingleOrDefaultAsync(route => route.Id == id);
+
     public async Task<Route?> GetByNameAsync(string name)
         => await _routes.SingleOrDefaultAsync(route => route.Name == name);
 
