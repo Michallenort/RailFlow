@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RailFlow.Application.Stops.Commands;
+using RailFlow.Application.Stops.DTO;
 using RailFlow.Application.Stops.Queries;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -16,6 +17,17 @@ public class StopController : ControllerBase
     public StopController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+    
+    [AllowAnonymous]
+    [HttpGet("{routeId:guid}")]
+    [SwaggerOperation("Get stops by route id")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult> GetStopsByRouteId(Guid routeId)
+    {
+        var stops = await _mediator.Send(new GetStops(routeId));
+        return Ok(stops);
     }
     
     [Authorize(Roles = "Supervisor")]
@@ -42,15 +54,28 @@ public class StopController : ControllerBase
         return Ok();
     }
     
-    [AllowAnonymous]
-    [HttpGet("{routeId:guid}")]
-    [SwaggerOperation("Get stops by route id")]
+    [Authorize(Roles = "Supervisor")]
+    [HttpPut("{stopId:guid}")]
+    [SwaggerOperation("Update stop")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult> GetStopsByRouteId(Guid routeId)
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult> UpdateStop(Guid stopId, UpdateStopDto dto)
     {
-        var stops = await _mediator.Send(new GetStops(routeId));
-        return Ok(stops);
+        await _mediator.Send(new UpdateStop(stopId, dto));
+        return Ok();
+    }
+    
+    [Authorize(Roles = "Supervisor")]
+    [HttpDelete("{stopId:guid}")]
+    [SwaggerOperation("Delete stop")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<ActionResult> DeleteStop(Guid stopId)
+    {
+        await _mediator.Send(new DeleteStop(stopId));
+        return Ok();
     }
     
 }

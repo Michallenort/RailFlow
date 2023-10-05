@@ -24,9 +24,10 @@ public class Stop
         RouteId = routeId;
     }
     
-    public void Update(TimeOnly? arrivalHour, TimeOnly? departureHour)
+    public void Update(TimeOnly arrivalHour, TimeOnly departureHour, Guid stationId)
     {
-        ArrivalHour = arrivalHour ?? ArrivalHour;
-        DepartureHour = departureHour ?? DepartureHour;
+        ArrivalHour = arrivalHour;
+        DepartureHour = departureHour;
+        StationId = stationId;
     }
 }

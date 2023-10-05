@@ -41,6 +41,18 @@ internal sealed class CreateStopHandler : IRequestHandler<CreateStop>
             throw new RouteNotFoundException(request.RouteId);
         }
         
+        var stops = await _stopRepository.GetByRouteIdAsync(request.RouteId);
+        
+        if (stops.Any(stop => 
+                (stop.ArrivalHour > request.ArrivalHour && stop.DepartureHour < request.DepartureHour) ||
+                (stop.ArrivalHour < request.ArrivalHour && stop.DepartureHour > request.DepartureHour) ||
+                (stop.ArrivalHour > request.ArrivalHour && stop.ArrivalHour < request.DepartureHour) ||
+                (stop.DepartureHour > request.ArrivalHour && stop.DepartureHour < request.DepartureHour))
+            )
+        {
+            throw new StopTimeConflictException();
+        }
+        
         var stop = new Stop(Guid.NewGuid(), request.ArrivalHour, request.DepartureHour, request.StationId, request.RouteId);
         
         await _stopRepository.AddAsync(stop);
