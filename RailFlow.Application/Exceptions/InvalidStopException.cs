@@ -4,7 +4,7 @@ namespace RailFlow.Application.Exceptions;
 
 internal sealed class InvalidStopException : CustomException
 {
-    public InvalidStopException() : base($"Start and end station cannot be the same.")
+    public InvalidStopException() : base($"Start and end station are not compliant.")
     {
         
     }

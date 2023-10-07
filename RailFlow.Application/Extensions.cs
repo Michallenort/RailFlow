@@ -42,6 +42,7 @@ public static class Extensions
         services.AddScoped<IValidator<CreateTrain>, CreateTrainValidator>();
         services.AddScoped<IValidator<CreateRoute>, CreateRouteValidator>();
         services.AddScoped<IValidator<CreateStop>, CreateStopValidator>();
+        services.AddScoped<IValidator<UpdateRoute>, UpdateRouteValidator>();
         
         services.AddScoped<IUserMapper, UserMapper>();
         services.AddScoped<IStationMapper, StationMapper>();

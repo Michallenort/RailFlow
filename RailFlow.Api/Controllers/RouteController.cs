@@ -59,6 +59,20 @@ public class RouteController : ControllerBase
     }
     
     [Authorize(Roles = "Supervisor")]
+    [HttpPut("{routeId:guid}")]
+    [SwaggerOperation("Update route's active status")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> UpdateRoute(Guid routeId, UpdateRouteDto route)
+    {
+        await _mediator.Send(new UpdateRoute(routeId, route));
+        return Ok();
+    }
+    
+    [Authorize(Roles = "Supervisor")]
     [HttpPut("update-active/{routeId:guid}")]
     [SwaggerOperation("Update route's active status")]
     [ProducesResponseType(StatusCodes.Status200OK)]
