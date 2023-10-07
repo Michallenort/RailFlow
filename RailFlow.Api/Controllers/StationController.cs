@@ -33,6 +33,7 @@ public class StationController : ControllerBase
     [HttpGet("{stationId:guid}")]
     [SwaggerOperation("Get station details")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<StationDetailsDto>> GetStationDetails(Guid stationId)
     {
@@ -46,6 +47,7 @@ public class StationController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> CreateStation(CreateStation command)
     {
         await _mediator.Send(command);
@@ -58,6 +60,7 @@ public class StationController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> CreateStations(CreateStations command)
     {
         await _mediator.Send(command);
@@ -69,6 +72,8 @@ public class StationController : ControllerBase
     [SwaggerOperation("Delete station")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteStation(Guid stationId)
     {
         await _mediator.Send(new DeleteStation(stationId));

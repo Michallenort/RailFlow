@@ -87,6 +87,7 @@ public class UserController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> CreateUser(CreateUser command)
     {
         await _mediator.Send(command);
@@ -98,6 +99,7 @@ public class UserController : ControllerBase
     [SwaggerOperation("Update account")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UpdateAccount(UpdateAccount command)
     {
@@ -110,6 +112,8 @@ public class UserController : ControllerBase
     [SwaggerOperation("Delete user")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteUser(Guid userId)
     {
@@ -121,6 +125,7 @@ public class UserController : ControllerBase
     [HttpDelete("delete-account")]
     [SwaggerOperation("Delete account")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteAccount()
     {

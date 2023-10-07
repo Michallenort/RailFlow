@@ -23,6 +23,8 @@ public class TrainController : ControllerBase
     [HttpGet]
     [SwaggerOperation("Get all trains")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> GetAllTrains()
     {
         var trains = await _mediator.Send(new GetTrains());
@@ -35,6 +37,7 @@ public class TrainController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> CreateTrain(CreateTrain command)
     {
         await _mediator.Send(command);
@@ -47,6 +50,8 @@ public class TrainController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteTrain(Guid trainId)
     {
         await _mediator.Send(new DeleteTrain(trainId));

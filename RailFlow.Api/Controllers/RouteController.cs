@@ -25,6 +25,7 @@ public class RouteController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> CreateRoute(CreateRoute command)
     {
         await _mediator.Send(command);
@@ -36,10 +37,38 @@ public class RouteController : ControllerBase
     [SwaggerOperation("Get routes")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<IEnumerable<RouteDto>>> GetRoutes()
     {
         var routes = await _mediator.Send(new GetRoutes());
         return Ok(routes);
     }
+
+    [Authorize(Roles = "Supervisor")]
+    [HttpGet("{routeId:guid}")]
+    [SwaggerOperation("Get route details")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<RouteDetailsDto>> GetRouteDetails(Guid routeId)
+    {
+        var route = await _mediator.Send(new GetRouteDetails(routeId));
+        return Ok(route);
+    }
     
+    [Authorize(Roles = "Supervisor")]
+    [HttpPut("update-active/{routeId:guid}")]
+    [SwaggerOperation("Update route's active status")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> UpdateActive(Guid routeId)
+    {
+        await _mediator.Send(new UpdateActive(routeId));
+        return Ok();
+    }
 }

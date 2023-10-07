@@ -19,11 +19,13 @@ public class StopController : ControllerBase
         _mediator = mediator;
     }
     
-    [AllowAnonymous]
+    [Authorize(Roles = "Supervisor")]
     [HttpGet("{routeId:guid}")]
     [SwaggerOperation("Get stops by route id")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> GetStopsByRouteId(Guid routeId)
     {
         var stops = await _mediator.Send(new GetStops(routeId));
@@ -36,6 +38,7 @@ public class StopController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> CreateStop(CreateStop command)
     {
         await _mediator.Send(command);
@@ -48,6 +51,7 @@ public class StopController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     public async Task<ActionResult> CreateStops(CreateStops command)
     {
         await _mediator.Send(command);
@@ -60,6 +64,8 @@ public class StopController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> UpdateStop(Guid stopId, UpdateStopDto dto)
     {
         await _mediator.Send(new UpdateStop(stopId, dto));
@@ -69,13 +75,15 @@ public class StopController : ControllerBase
     [Authorize(Roles = "Supervisor")]
     [HttpDelete("{stopId:guid}")]
     [SwaggerOperation("Delete stop")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> DeleteStop(Guid stopId)
     {
         await _mediator.Send(new DeleteStop(stopId));
-        return Ok();
+        return NoContent();
     }
     
 }
