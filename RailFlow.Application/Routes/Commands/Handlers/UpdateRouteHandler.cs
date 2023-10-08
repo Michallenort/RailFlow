@@ -37,25 +37,40 @@ internal sealed class UpdateRouteHandler : IRequestHandler<UpdateRoute>
             throw new RouteIsActiveException(route.Id);
         }
 
+        var newRouteName = request.Route.Name ?? route.Name;
         var newStartStationId = request.Route.StartStationId ?? route.StartStationId;
         var newEndStationId = request.Route.EndStationId ?? route.EndStationId;
         var newTrainId = request.Route.TrainId ?? route.TrainId;
+
+        if (newStartStationId is null)
+        {
+            throw new NullException("Start station", route.Id);
+        }
+        
+        if (newEndStationId is null)
+        {
+            throw new NullException("End station", route.Id);
+        }
+        
+        if (newTrainId is null)
+        {
+            throw new NullException("Train", route.Id);
+        }
         
         if (request.Route.Name is not null && 
-            await _routeRepository.GetByNameAsync(request.Route.Name) is not null)
+            await _routeRepository.GetByNameAsync(newRouteName) is not null)
         {
-            throw new RouteExistsException(request.Route.Name);
+            throw new RouteExistsException(newRouteName);
         }
         
-        if (await _stationRepository.GetByIdAsync(newStartStationId) is null)
+        if (await _stationRepository.GetByIdAsync(newStartStationId!.Value) is null)
         {
-            throw new StationNotFoundException(newStartStationId);
+            throw new StationNotFoundException(newStartStationId!.Value);
         }
         
-        if (request.Route.EndStationId is not null && 
-            await _stationRepository.GetByIdAsync(newEndStationId) is null)
+        if (await _stationRepository.GetByIdAsync(newEndStationId!.Value) is null)
         {
-            throw new StationNotFoundException(newEndStationId);
+            throw new StationNotFoundException(newEndStationId!.Value);
         }
         
         if (newStartStationId == newEndStationId)
@@ -63,11 +78,11 @@ internal sealed class UpdateRouteHandler : IRequestHandler<UpdateRoute>
             throw new EqualStationsException();
         }
         
-        var train = await _trainRepository.GetByIdAsync(newTrainId);
+        var train = await _trainRepository.GetByIdAsync(newTrainId!.Value);
         
         if (train is null)
         {
-            throw new TrainNotFoundException(newTrainId);
+            throw new TrainNotFoundException(newTrainId!.Value);
         }
         
         if (request.Route.TrainId is not null && train.AssignedRoute is not null)

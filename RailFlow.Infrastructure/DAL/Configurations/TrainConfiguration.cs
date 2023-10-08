@@ -18,6 +18,7 @@ internal sealed class TrainConfiguration : IEntityTypeConfiguration<Train>
 
         builder.HasOne(x => x.AssignedRoute)
             .WithOne(x => x.Train)
-            .HasForeignKey<Route>(x => x.TrainId);
+            .HasForeignKey<Route>(x => x.TrainId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

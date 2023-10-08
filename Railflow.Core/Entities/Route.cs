@@ -4,12 +4,12 @@ public class Route
 {
     public Guid Id { get; private set; }
     public string Name { get; private set; }
-    public Guid StartStationId { get; private set; }
-    public Station StartStation { get; private set; }
-    public Guid EndStationId { get; private set; }
-    public Station EndStation { get; private set; }
-    public Guid TrainId { get; private set; }
-    public Train Train { get; private set; }
+    public Guid? StartStationId { get; private set; }
+    public Station? StartStation { get; private set; }
+    public Guid? EndStationId { get; private set; }
+    public Station? EndStation { get; private set; }
+    public Guid? TrainId { get; private set; }
+    public Train? Train { get; private set; }
     public ICollection<Stop> Stops { get; private set; }
     public bool IsActive { get; private set; }
 

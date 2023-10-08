@@ -22,6 +22,12 @@ internal sealed class DeleteTrainHandler : IRequestHandler<DeleteTrain>
             throw new TrainNotFoundException(request.Id);
         }
         
+        if (train.AssignedRoute is not null && 
+            train.AssignedRoute.IsActive)
+        {
+            throw new RouteIsActiveException(train.AssignedRoute.Id);
+        }
+        
         await _trainRepository.DeleteAsync(train);
     }
 }

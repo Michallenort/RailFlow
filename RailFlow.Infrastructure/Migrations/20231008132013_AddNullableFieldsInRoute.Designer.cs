@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RailFlow.Infrastructure.DAL;
@@ -11,9 +12,11 @@ using RailFlow.Infrastructure.DAL;
 namespace RailFlow.Infrastructure.Migrations
 {
     [DbContext(typeof(TrainDbContext))]
-    partial class TrainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231008132013_AddNullableFieldsInRoute")]
+    partial class AddNullableFieldsInRoute
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +48,7 @@ namespace RailFlow.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("EndStationId")
+                    b.Property<Guid>("EndStationId")
                         .HasColumnType("uuid");
 
                     b.Property<bool>("IsActive")
@@ -58,10 +61,10 @@ namespace RailFlow.Infrastructure.Migrations
                         .HasMaxLength(25)
                         .HasColumnType("character varying(25)");
 
-                    b.Property<Guid?>("StartStationId")
+                    b.Property<Guid>("StartStationId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("TrainId")
+                    b.Property<Guid>("TrainId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -186,17 +189,20 @@ namespace RailFlow.Infrastructure.Migrations
                     b.HasOne("Railflow.Core.Entities.Station", "EndStation")
                         .WithMany()
                         .HasForeignKey("EndStationId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.HasOne("Railflow.Core.Entities.Station", "StartStation")
                         .WithMany()
                         .HasForeignKey("StartStationId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.HasOne("Railflow.Core.Entities.Train", "Train")
                         .WithOne("AssignedRoute")
                         .HasForeignKey("Railflow.Core.Entities.Route", "TrainId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.Navigation("EndStation");
 
