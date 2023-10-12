@@ -32,7 +32,6 @@ public static class Extensions
         JobStorage.Current = new InMemoryStorage();
         services.AddHangfire(x => x.UseInMemoryStorage());
         
-        
         services.AddEndpointsApiExplorer();
         
         services.AddSwaggerGen(swagger =>
@@ -65,6 +64,9 @@ public static class Extensions
             reDoc.SpecUrl("/swagger/v1/swagger.json");
             reDoc.DocumentTitle = "API";
         });
+        
+        app.UseHangfireServer();
+        app.UseHangfireDashboard("/hangfire");
         
         app.UseHttpsRedirection();
         app.UseAuthentication();
