@@ -1,9 +1,12 @@
+using Hangfire;
+using Hangfire.InMemory;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Railflow.Core.Entities;
 using Railflow.Core.Services;
 using RailFlow.Infrastructure.Auth;
 using RailFlow.Infrastructure.Services;
@@ -25,6 +28,10 @@ public static class Extensions
 
         services.AddPostgres(configuration);
         services.AddSecurity();
+
+        JobStorage.Current = new InMemoryStorage();
+        services.AddHangfire(x => x.UseInMemoryStorage());
+        
         
         services.AddEndpointsApiExplorer();
         
@@ -41,6 +48,7 @@ public static class Extensions
 
         services.AddAuth(configuration);
         services.AddScoped<IContextService, ContextService>();
+        services.AddScoped<IScheduleService, ScheduleService>();
         
         return services;
     }
