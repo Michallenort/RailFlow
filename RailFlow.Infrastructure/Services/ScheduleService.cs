@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Railflow.Core.Entities;
 using Railflow.Core.Repositories;
 using Railflow.Core.Services;
@@ -7,27 +8,27 @@ namespace RailFlow.Infrastructure.Services;
 
 internal sealed class ScheduleService : IScheduleService
 {
-    private readonly IRouteRepository _routeRepository;
-    private readonly IScheduleRepository _scheduleRepository;
     private readonly TrainDbContext _dbContext;
     
-    public ScheduleService(IRouteRepository routeRepository, IScheduleRepository scheduleRepository, TrainDbContext dbContext)
+    public ScheduleService(TrainDbContext dbContext)
     {
-        _routeRepository = routeRepository;
-        _scheduleRepository = scheduleRepository;
         _dbContext = dbContext;
     }
 
     public async Task Run()
     {
         var now = DateOnly.FromDateTime(DateTime.Today);
-        var routes = await _routeRepository.GetAllAsync();
+        var routes = await _dbContext.Routes
+            .AsNoTracking()
+            .ToListAsync();
 
         var newSchedules = routes.Select(x => new Schedule(Guid.NewGuid(), now.AddDays(30), x.Id));
-        var oldSchedules = await _scheduleRepository.GetByDateAsync(now.AddDays(-30));
+        var oldSchedules = await _dbContext.Schedules
+            .Where(schedule => schedule.Date == now.AddDays(-30))
+            .ToListAsync();
 
-        await _scheduleRepository.AddRangeAsync(newSchedules);
-        await _scheduleRepository.DeleteRangeAsync(oldSchedules);
+        await _dbContext.Schedules.AddRangeAsync(newSchedules);
+        await Task.Run(() => _dbContext.Schedules.RemoveRange(oldSchedules));
         await _dbContext.SaveChangesAsync();
     }
 }
