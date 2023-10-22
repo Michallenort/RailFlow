@@ -48,6 +48,7 @@ public static class Extensions
         services.AddAuth(configuration);
         services.AddScoped<IContextService, ContextService>();
         services.AddScoped<IScheduleService, ScheduleService>();
+        services.AddScoped<IConnectionService, ConnectionService>();
         
         return services;
     }

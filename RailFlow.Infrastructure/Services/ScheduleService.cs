@@ -19,7 +19,7 @@ internal sealed class ScheduleService : IScheduleService
     {
         var now = DateOnly.FromDateTime(DateTime.Today);
         var routes = await _dbContext.Routes
-            .AsNoTracking()
+            .Where(route => route.IsActive == true)
             .ToListAsync();
 
         var newSchedules = routes.Select(x => new Schedule(Guid.NewGuid(), now.AddDays(30), x.Id));
