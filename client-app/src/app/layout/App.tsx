@@ -1,4 +1,6 @@
-import { useLocation } from 'react-router-dom';
+import { Outlet, ScrollRestoration, useLocation } from 'react-router-dom';
+import HomePage from '../../features/home/HomePage';
+import NavBar from './NavBar';
 import './App.css';
 
 function  App() {
@@ -7,9 +9,14 @@ function  App() {
 
 
   return (
-    <div className="App">
-      <h1>Hello</h1>
-    </div>
+    <>
+      <NavBar /> 
+      {location.pathname === '/' ? <HomePage /> : (
+        <>
+           <Outlet />
+        </>
+        )}
+    </>
   );
 }
 
