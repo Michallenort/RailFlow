@@ -1,3 +1,11 @@
 .main-color {
   background-color: #0e76a8;
 }
+
+.login-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  width: 400px;
+}
