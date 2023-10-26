@@ -4,7 +4,7 @@ import { store } from "../stores/store";
 import { router } from "../router/Routes";
 import { toast } from "react-toastify";
 
-axios.defaults.baseURL = "http://localhost:44363";
+axios.defaults.baseURL = "https://localhost:44363";
 
 const responseBody = (response: AxiosResponse) => response.data;
 

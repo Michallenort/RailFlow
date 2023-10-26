@@ -45,6 +45,15 @@ public static class Extensions
             });
         });
 
+        services.AddCors(options =>
+            {
+                options.AddPolicy("Client", policyBuilder =>
+                    policyBuilder.WithOrigins(configuration["AllowedOrigins"] ?? string.Empty)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            }
+        );
+
         services.AddAuth(configuration);
         services.AddScoped<IContextService, ContextService>();
         services.AddScoped<IScheduleService, ScheduleService>();
@@ -55,6 +64,7 @@ public static class Extensions
     
     public static WebApplication UseInfrastructure(this WebApplication app)
     {
+        app.UseCors("Client");
         app.UseMiddleware<ExceptionMiddleware>();
         
         app.UseSwagger();
