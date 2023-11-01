@@ -18,5 +18,6 @@ export interface SignUpFormValues {
   email: string;
   dateOfBirth: Date;
   password: string;
+  confirmPassword: string;
   nationality: string;
 }

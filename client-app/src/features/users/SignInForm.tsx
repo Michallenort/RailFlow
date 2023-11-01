@@ -41,20 +41,6 @@ export default observer(function SignInForm() {
                     value={password}
                     />
                 </div>
-                <div className="row mb-4">
-                  <div className="col d-flex justify-content-center">
-                    <div className="form-check">
-                      <input className="form-check-input" type="checkbox" value="" id="form1Example3" checked />
-                      <label className="form-check-label" htmlFor="form1Example3">
-                        Remember me
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="col text-center">
-                    <a href="#!">Forgot password?</a>
-                  </div>
-                </div>
 
                 <button type="submit" className="btn btn-primary btn-block" onClick={e => onSubmit(e)}>Sign in</button>
               </form>

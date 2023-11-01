@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { SignInFormValues } from "../models/user";
+import { SignInFormValues, SignUpFormValues } from "../models/user";
 import { store } from "../stores/store";
 import { router } from "../router/Routes";
 import { toast } from "react-toastify";
@@ -55,7 +55,9 @@ const requests = {
 }
 
 const Users = {
-  signin: (user: SignInFormValues) => requests.post('/User/sign-in', user)
+  signin: (user: SignInFormValues) => requests.post('/User/sign-in', user),
+  signup: (user: SignUpFormValues) => requests.post('/User/sign-up', user),
+  accountdetails: () => requests.get('/User/account-details')
 }
 
 const agent = {
