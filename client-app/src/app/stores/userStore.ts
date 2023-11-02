@@ -15,7 +15,7 @@ export default class UserStore {
     return !!this.user;
   }
 
-  isAdmin = () => {
+  get isAdmin() {
     return this.user?.roleName === 'Supervisor';
   }
 

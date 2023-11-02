@@ -18,9 +18,9 @@ export default observer(function NavBar() {
                 Home
               </NavLink>
             </li>
-            {isAdmin() &&
+            {isAdmin &&
             <li className="nav-item">
-              <NavLink className="nav-link" to="/admin">
+              <NavLink className="nav-link" to="/supervisor">
                 Admin
               </NavLink>
             </li>}
