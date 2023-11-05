@@ -60,8 +60,17 @@ const Users = {
   accountdetails: () => requests.get('/User/account-details')
 }
 
+const Stations = {
+  list: () => requests.get('/Station'),
+  details: (id: string) => requests.get(`/Station/${id}`),
+  create: (station: any) => requests.post('/Station', station),
+  update: (station: any) => requests.put(`/Station/${station.id}`, station),
+  delete: (id: string) => requests.delete(`/Station/${id}`)
+}
+
 const agent = {
-  Users
+  Users,
+  Stations
 }
 
 export default agent;

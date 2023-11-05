@@ -9,7 +9,13 @@ export default class UserStore {
 
   constructor() {
     makeAutoObservable(this);
-  }
+
+    agent.Users.accountdetails().then(user => {
+        runInAction(() => this.user = user);
+      }).catch(error => {
+        console.log(error);
+      });;
+    }
 
   get isLoggedIn() {
     return !!this.user;

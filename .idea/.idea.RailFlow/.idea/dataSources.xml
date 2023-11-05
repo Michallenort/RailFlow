@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="TrainDb@traindb.ccesha3qfdhv.eu-north-1.rds.amazonaws.com" uuid="cf469545-e646-4c36-a3e9-38977ff2899f">
+    <data-source source="LOCAL" name="TrainDb@traindb.ccesha3qfdhv.eu-north-1.rds.amazonaws.com [2]" uuid="5d3beb18-bf63-45e4-91be-4b28a0ec969e">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
-      <configured-by-url>true</configured-by-url>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://traindb.ccesha3qfdhv.eu-north-1.rds.amazonaws.com:5432/TrainDb</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>

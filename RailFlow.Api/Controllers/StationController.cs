@@ -23,7 +23,7 @@ public class StationController : ControllerBase
     [HttpGet]
     [SwaggerOperation("Get all stations")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<StationDto>>> GetAllStations()
+    public async Task<ActionResult<IEnumerable<StationDetailsDto>>> GetAllStations()
     {
         var stations = await _mediator.Send(new GetStations());
         return Ok(stations);

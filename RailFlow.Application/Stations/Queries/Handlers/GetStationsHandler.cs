@@ -4,7 +4,7 @@ using Railflow.Core.Repositories;
 
 namespace RailFlow.Application.Stations.Queries.Handlers;
 
-internal sealed class GetStationsHandler : IRequestHandler<GetStations, IEnumerable<StationDto>>
+internal sealed class GetStationsHandler : IRequestHandler<GetStations, IEnumerable<StationDetailsDto>>
 {
     private readonly IStationRepository _stationRepository;
     private readonly IStationMapper _stationMapper;
@@ -15,9 +15,9 @@ internal sealed class GetStationsHandler : IRequestHandler<GetStations, IEnumera
         _stationMapper = stationMapper;
     }
     
-    public async Task<IEnumerable<StationDto>> Handle(GetStations request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<StationDetailsDto>> Handle(GetStations request, CancellationToken cancellationToken)
     {
         var stations = await _stationRepository.GetAllAsync();
-        return _stationMapper.MapStationDtos(stations);
+        return _stationMapper.MapStationDetailsDtos(stations);
     }
 }
