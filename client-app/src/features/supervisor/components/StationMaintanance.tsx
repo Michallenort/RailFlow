@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export default observer(function StationMaintanance() {
   const {stationStore} = useStore();
-  const {loadStations, stations} = stationStore;
+  const {loadStations, deleteStation, stations} = stationStore;
 
   useEffect(() => {
     loadStations();
@@ -21,6 +21,7 @@ export default observer(function StationMaintanance() {
             <th>Country</th>
             <th>City</th>
             <th>Street</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -30,6 +31,9 @@ export default observer(function StationMaintanance() {
                 <td>{station.country}</td>
                 <td>{station.city}</td>
                 <td>{station.street}</td>
+                <td>
+                <button className="btn btn-danger" onClick={() => deleteStation(station.id)}>Delete</button>
+                </td>
               </tr>
             ))}
         </tbody>

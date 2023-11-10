@@ -10,12 +10,8 @@ export default class UserStore {
   constructor() {
     makeAutoObservable(this);
 
-    agent.Users.accountdetails().then(user => {
-        runInAction(() => this.user = user);
-      }).catch(error => {
-        console.log(error);
-      });;
-    }
+    this.loadUserDetails();  
+  }
 
   get isLoggedIn() {
     return !!this.user;
@@ -25,12 +21,39 @@ export default class UserStore {
     return this.user?.roleName === 'Supervisor';
   }
 
+  loadUserDetails() {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      try {
+        const userData = JSON.parse(userJson);
+        userData.dateOfBirth = new Date(userData.dateOfBirth);
+        runInAction(() => {
+          this.user = userData;
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  saveUserDetails(user: User) {
+    try {
+      const userJson = JSON.stringify(user);
+      localStorage.setItem('user', userJson);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   signIn = async (values: SignInFormValues) => {
     try {
       const token = await agent.Users.signin(values);
-      store.tokenStore.setToken(token.accessToken);
+      store.tokenStore.setToken(token.data.accessToken);
       const user = await agent.Users.accountdetails();
-      runInAction(() => this.user = user);
+      runInAction(() => {
+        this.user = user.data;
+        this.saveUserDetails(user.data);
+      });
     } catch (error) {
       throw error;
     }
@@ -47,6 +70,7 @@ export default class UserStore {
   logout = () => {
     store.tokenStore.setToken(null);
     this.user = null;
+    localStorage.removeItem('user');
     router.navigate('/');
   }
 }

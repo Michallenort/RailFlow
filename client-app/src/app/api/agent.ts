@@ -3,10 +3,11 @@ import { SignInFormValues, SignUpFormValues } from "../models/user";
 import { store } from "../stores/store";
 import { router } from "../router/Routes";
 import { toast } from "react-toastify";
+import { StationFormValues } from "../models/station";
 
 axios.defaults.baseURL = "https://localhost:44363";
 
-const responseBody = (response: AxiosResponse) => response.data;
+const responseBody = (response: AxiosResponse) => response;
 
 axios.interceptors.request.use(config => {
   const token = store.tokenStore.token;
@@ -18,33 +19,7 @@ axios.interceptors.response.use(async response => {
   return response;
 }, (error: AxiosError) => {
   const { data, status, config } = error.response as AxiosResponse;
-  switch (status) {
-      case 400:
-          if (config.method === 'get' && data.errors.hasOwnProperty('id')) {
-              router.navigate('/not-found');
-          }
-          if (data.errors) {
-              const modalStateErrors = [];
-              for (const key in data.errors) {
-                  if (data.errors[key]) {
-                      modalStateErrors.push(data.errors[key])
-                  }
-              }
-              throw modalStateErrors.flat();
-          } else {
-              toast.error(data);
-          }
-          break;
-      case 401:
-          break;
-      case 403:
-          break;
-      case 404:
-          break;
-      case 500:
-          break;
-  }
-  return Promise.reject(error);
+  return error.response;
 })
 
 const requests = {
@@ -63,7 +38,7 @@ const Users = {
 const Stations = {
   list: () => requests.get('/Station'),
   details: (id: string) => requests.get(`/Station/${id}`),
-  create: (station: any) => requests.post('/Station', station),
+  create: (station: StationFormValues) => requests.post('/Station', station),
   update: (station: any) => requests.put(`/Station/${station.id}`, station),
   delete: (id: string) => requests.delete(`/Station/${id}`)
 }

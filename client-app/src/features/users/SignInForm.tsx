@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import { useStore } from "../../app/stores/store";
+import { router } from "../../app/router/Routes";
 
 export default observer(function SignInForm() {
 
@@ -12,6 +13,7 @@ export default observer(function SignInForm() {
   const onSubmit = (e: any) => {
     e.preventDefault();
     userStore.signIn({email: email, password: password});
+    router.navigate('/');
   }
 
   return (
