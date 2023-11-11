@@ -3,7 +3,8 @@ import { SignInFormValues, SignUpFormValues } from "../models/user";
 import { store } from "../stores/store";
 import { router } from "../router/Routes";
 import { toast } from "react-toastify";
-import { StationFormValues } from "../models/station";
+import { Station, StationFormValues } from "../models/station";
+import { PaginatedResult } from "../models/pagination";
 
 axios.defaults.baseURL = "https://localhost:44363";
 
@@ -16,6 +17,13 @@ axios.interceptors.request.use(config => {
 })
 
 axios.interceptors.response.use(async response => {
+  const {page, pageSize, totalCount, totalPages} = response.data;
+
+  if (page && pageSize && totalCount && totalPages) {
+    response.data = new PaginatedResult(response.data.items, {page, pageSize, totalCount, totalPages});
+    return response as AxiosResponse<PaginatedResult<any>>;
+  }
+
   return response;
 }, (error: AxiosError) => {
   const { data, status, config } = error.response as AxiosResponse;
@@ -23,6 +31,7 @@ axios.interceptors.response.use(async response => {
 })
 
 const requests = {
+  getPage: <T>(url: string, params: URLSearchParams) => axios.get<PaginatedResult<T>>(url, { params }).then(responseBody),
   get: <T>(url: string) => axios.get<T>(url).then(responseBody),
   post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
   put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
@@ -36,7 +45,7 @@ const Users = {
 }
 
 const Stations = {
-  list: () => requests.get('/Station'),
+  list: (params: URLSearchParams) => requests.getPage<PaginatedResult<Station[]>>('/Station', params).then(responseBody),
   details: (id: string) => requests.get(`/Station/${id}`),
   create: (station: StationFormValues) => requests.post('/Station', station),
   update: (station: any) => requests.put(`/Station/${station.id}`, station),

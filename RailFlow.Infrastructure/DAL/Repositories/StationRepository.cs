@@ -18,6 +18,13 @@ internal sealed class StationRepository : IStationRepository
             .AsNoTracking()
             .ToListAsync();
 
+    public async Task<IEnumerable<Station>> GetBySearchTermAsync(string searchTerm)
+        => await _stations
+            .AsNoTracking()
+            .Where(station => station.Name.ToLower().Contains(searchTerm.ToLower()) || 
+                              station.Address.City.ToLower().Contains(searchTerm.ToLower()))
+            .ToListAsync();
+
     public async Task<Station?> GetByIdAsync(Guid id)
         => await _stations.SingleOrDefaultAsync(station => station.Id == id);
 
