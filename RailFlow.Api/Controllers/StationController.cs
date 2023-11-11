@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RailFlow.Application.Stations.Commands;
 using RailFlow.Application.Stations.DTO;
 using RailFlow.Application.Stations.Queries;
+using Railflow.Core.Pagination;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace RailFlow.API.Controllers;
@@ -23,9 +24,11 @@ public class StationController : ControllerBase
     [HttpGet]
     [SwaggerOperation("Get all stations")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<StationDetailsDto>>> GetAllStations()
+    public async Task<ActionResult<PagedList<StationDetailsDto>>> GetAllStations([FromQuery] string? searchTerm, 
+        [FromQuery] int page, [FromQuery] int pageSize)
     {
-        var stations = await _mediator.Send(new GetStations());
+        var stations = 
+            await _mediator.Send(new GetStations(searchTerm, page, pageSize));
         return Ok(stations);
     }
     

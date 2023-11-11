@@ -1,42 +1,42 @@
 import { useState } from "react";
-import UserMaintanance from "./components/UserMaintanance";
-import TrainMaintanance from "./components/TrainMaintanance";
-import StationMaintanance from "./components/StationMaintanance";
-import RouteMaintanance from "./components/RouteMaintanance";
+import UserMaintenance from "./components/UserMaintenance";
+import TrainMaintenance from "./components/TrainMaintenance";
+import StationMaintenance from "./components/StationMaintenance";
+import RouteMaintenance from "./components/RouteMaintenance";
 
 export default function SupervisorPage() {
 
-  const [userMaintanance, setUserMaintanance] = useState(true);
-  const [trainMaintainance, setTrainMaintainance] = useState(false);
-  const [stationMaintainance, setStationMaintainance] = useState(false);
-  const [routeMaintainance, setRouteMaintainance] = useState(false);
+  const [userMaintenance, setUserMaintenance] = useState(true);
+  const [trainMaintenance, setTrainMaintenance] = useState(false);
+  const [stationMaintenance, setStationMaintenance] = useState(false);
+  const [routeMaintenance, setRouteMaintenance] = useState(false);
 
   function userMaintananceFunction() {
-    setUserMaintanance(true);
-    setTrainMaintainance(false);
-    setStationMaintainance(false);
-    setRouteMaintainance(false);
+    setUserMaintenance(true);
+    setTrainMaintenance(false);
+    setStationMaintenance(false);
+    setRouteMaintenance(false);
   }
 
   function trainMaintananceFunction() {
-    setUserMaintanance(false);
-    setTrainMaintainance(true);
-    setStationMaintainance(false);
-    setRouteMaintainance(false);
+    setUserMaintenance(false);
+    setTrainMaintenance(true);
+    setStationMaintenance(false);
+    setRouteMaintenance(false);
   }
 
   function stationMaintananceFunction() {
-    setUserMaintanance(false);
-    setTrainMaintainance(false);
-    setStationMaintainance(true);
-    setRouteMaintainance(false);
+    setUserMaintenance(false);
+    setTrainMaintenance(false);
+    setStationMaintenance(true);
+    setRouteMaintenance(false);
   }
 
   function routeMaintananceFunction() {
-    setUserMaintanance(false);
-    setTrainMaintainance(false);
-    setStationMaintainance(false);
-    setRouteMaintainance(true);
+    setUserMaintenance(false);
+    setTrainMaintenance(false);
+    setStationMaintenance(false);
+    setRouteMaintenance(true);
   }
 
   return (
@@ -55,7 +55,7 @@ export default function SupervisorPage() {
               role='tab'
               aria-controls='nav-user'
               aria-selected='false'>
-              User Maintanance
+              User Maintenance
             </button>
             <button
               onClick={trainMaintananceFunction}
@@ -67,7 +67,7 @@ export default function SupervisorPage() {
               role='tab'
               aria-controls='nav-train'
               aria-selected='true'>
-              Train Maintanance
+              Train Maintenance
             </button>
             <button
               onClick={stationMaintananceFunction}
@@ -79,7 +79,7 @@ export default function SupervisorPage() {
               role='tab'
               aria-controls='nav-station'
               aria-selected='false'>
-              Station Maintanance
+              Station Maintenance
             </button>
             <button
               onClick={routeMaintananceFunction}
@@ -91,7 +91,7 @@ export default function SupervisorPage() {
               role='tab'
               aria-controls='nav-route'
               aria-selected='false'>
-              Route Maintanance
+              Route Maintenance
             </button>
           </div>
         </nav>
@@ -101,16 +101,16 @@ export default function SupervisorPage() {
 						id='nav-user'
 						role='tabpanel'
 						aria-labelledby='nav-user-tab'>
-					  {userMaintanance ? <UserMaintanance /> : <></>}
+					  {userMaintenance ? <UserMaintenance /> : <></>}
 					</div>
 					<div className='tab-pane fade' id='nav-train' role='tabpanel' aria-labelledby='nav-train-tab'>
-						{trainMaintainance ? <TrainMaintanance /> : <></>}
+						{trainMaintenance ? <TrainMaintenance /> : <></>}
 					</div>
 					<div className='tab-pane fade' id='nav-station' role='tabpanel' aria-labelledby='nav-station-tab'>
-						{stationMaintainance ? <StationMaintanance /> : <></>}
+						{stationMaintenance ? <StationMaintenance /> : <></>}
 					</div>
           <div className='tab-pane fade' id='nav-route' role='tabpanel' aria-labelledby='nav-route-tab'>
-						{routeMaintainance ? <RouteMaintanance /> : <></>}
+						{routeMaintenance ? <RouteMaintenance /> : <></>}
 					</div>
         </div>
       </div>

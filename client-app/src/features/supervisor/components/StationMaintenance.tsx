@@ -6,7 +6,7 @@ import { PagingParams } from "../../../app/models/pagination";
 import { Pagination } from "../../../app/common/Pagination";
 import SpinnerLoading from "../../../app/common/SpinnerLoading";
 
-export default observer(function StationMaintanance() {
+export default observer(function StationMaintenance() {
   const {stationStore} = useStore();
   const {loadStations, deleteStation, stations, setPagingParams, pagination, isLoading, searchTerm, setSearchTerm} = stationStore;
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,7 +34,7 @@ export default observer(function StationMaintanance() {
   return (
     <div className='container mt-5'>
       <Link type="button" className="btn btn-primary" to="/create-station">Add Station</Link>
-      <div className="row mt-3">
+      <div className="row mt-3 mb-2">
         <div className="col-6">
           <div className="d-flex">
             <input 
