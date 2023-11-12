@@ -10,7 +10,6 @@ export default observer(function StationMaintenance() {
   const {stationStore} = useStore();
   const {loadStations, deleteStation, stations, setPagingParams, pagination, isLoading, searchTerm, setSearchTerm} = stationStore;
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     loadStations();

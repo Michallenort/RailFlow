@@ -16,6 +16,10 @@ internal sealed class TrainRepository : ITrainRepository
     public async Task<IEnumerable<Train>> GetAllAsync()
         => await _trains.ToListAsync();
 
+    public async Task<IEnumerable<Train>> GetBySearchTermAsync(string searchTerm)
+        => await _trains.AsNoTracking()
+            .Where(train => train.Number.ToString().Contains(searchTerm))
+            .ToListAsync();
     public async Task<Train?> GetByIdAsync(Guid id)
         => await _trains
             .Include(x => x.AssignedRoute)

@@ -5,6 +5,7 @@ import SignUpForm from '../../features/users/SignUpForm';
 import RequireAdmin from './RequireAdmin';
 import SupervisorPage from '../../features/supervisor/SupervisorPage';
 import CreateStation from '../../features/supervisor/CreateStation';
+import CreateTrain from '../../features/supervisor/CreateTrain';
 
 export const routes: RouteObject[] = [
 	{
@@ -15,7 +16,8 @@ export const routes: RouteObject[] = [
 			{path: 'signup', element: <SignUpForm />},
 			{element: <RequireAdmin />, children: [
 				{path: 'supervisor', element: <SupervisorPage />},
-				{path: 'create-station', element: <CreateStation />}
+				{path: 'create-station', element: <CreateStation />},
+				{path: 'create-train', element: <CreateTrain />}
 			]}
 		]
 	}
