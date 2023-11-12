@@ -1,7 +1,8 @@
 import { makeAutoObservable, reaction } from "mobx";
+import { getLocalStorageWithExpiry, removeLocalStorage, setLocalStorageWithExpiry } from "./localStorageHandler";
 
 export default class TokenStore {
-  token: string | null = localStorage.getItem('jwt');
+  token: string | null = getLocalStorageWithExpiry('jwt');
   
   constructor() {
     makeAutoObservable(this);
@@ -10,9 +11,9 @@ export default class TokenStore {
       () => this.token,
       token => {
         if (token) {
-          localStorage.setItem('jwt', token);
+          setLocalStorageWithExpiry('jwt', token, 1);
         } else {
-          localStorage.removeItem('jwt');
+          removeLocalStorage('jwt');
         }
       }
     )

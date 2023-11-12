@@ -3,6 +3,7 @@ import { SignInFormValues, SignUpFormValues, User } from "../models/user";
 import agent from "../api/agent";
 import { store } from "./store";
 import { router } from "../router/Routes";
+import { getLocalStorageWithExpiry, removeLocalStorage, setLocalStorageWithExpiry } from "./localStorageHandler";
 
 export default class UserStore {
   user: User | null = null;
@@ -22,7 +23,7 @@ export default class UserStore {
   }
 
   loadUserDetails() {
-    const userJson = localStorage.getItem('user');
+    const userJson = getLocalStorageWithExpiry('user');
     if (userJson) {
       try {
         const userData = JSON.parse(userJson);
@@ -39,7 +40,7 @@ export default class UserStore {
   saveUserDetails(user: User) {
     try {
       const userJson = JSON.stringify(user);
-      localStorage.setItem('user', userJson);
+      setLocalStorageWithExpiry('user', userJson, 1);
     } catch (error) {
       console.log(error);
     }
@@ -70,7 +71,7 @@ export default class UserStore {
   logout = () => {
     store.tokenStore.setToken(null);
     this.user = null;
-    localStorage.removeItem('user');
+    removeLocalStorage('user');
     router.navigate('/');
   }
 }
