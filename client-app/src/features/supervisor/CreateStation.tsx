@@ -3,8 +3,13 @@ import { useState } from 'react'
 import { Station, StationFormValues } from '../../app/models/station'
 import agent from '../../app/api/agent'
 import { set } from 'mobx'
+import { router } from '../../app/router/Routes'
+import { useStore } from '../../app/stores/store'
 
 export default observer(function CreateStation() {
+	const {stationStore} = useStore();
+	const {createStation} = stationStore;
+
 	const [name, setName] = useState('')
 	const [country, setCountry] = useState('')
 	const [city, setCity] = useState('')
@@ -24,23 +29,33 @@ export default observer(function CreateStation() {
 			street: street,
 		}
 
-		const response = await agent.Stations.create(station)
-
-		if (response.status === 200) {
-			setName('')
-			setCountry('')
-			setCity('')
-			setStreet('')
-
-			setDisplaySuccess(true)
-			setDisplayWarning(false)
-			setErrorMessage('')
-		} else {
+		createStation(station).then(response => {
+			if (response?.status === 200) {
+				setName('')
+				setCountry('')
+				setCity('')
+				setStreet('')
+	
+				setDisplaySuccess(true)
+				setDisplayWarning(false)
+				setErrorMessage('')
+			} else {
+				setDisplaySuccess(false)
+				setDisplayWarning(true)
+				setErrorMessage(response?.data.reason)
+			}
+		}).catch(error => {
 			setDisplaySuccess(false)
 			setDisplayWarning(true)
-			setErrorMessage(response.data.reason)
-		}
+			setErrorMessage(error.data.reason)
+		})
+
+		
 	}
+
+	function handleCancel() {
+    router.navigate('/supervisor');
+  }
 
 	return (
 		<div className='container mt-5 mb-5'>
@@ -52,7 +67,7 @@ export default observer(function CreateStation() {
 				)}
 				{displayWarning && (
 					<div className='col-md-6 alert alert-danger' role='alert'>
-						Something went wrong!
+						{errorMessage || 'Something went wrong!'}
 					</div>
 				)}
 			</div>
@@ -118,6 +133,9 @@ export default observer(function CreateStation() {
 									<button className='col-md-3 btn btn-primary' onClick={e => handleSubmit(e)}>
 										Submit
 									</button>
+									<button className="col-md-3 mx-2 btn btn-outline-primary" onClick={handleCancel}>
+                    Cancel
+                  </button>
 								</div>
 							</div>
 						</form>

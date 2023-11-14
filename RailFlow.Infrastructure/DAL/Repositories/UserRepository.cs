@@ -16,6 +16,16 @@ internal sealed class UserRepository : IUserRepository
     public async Task<IEnumerable<User>> GetAllAsync()
         => await _users
             .AsNoTracking()
+            .Include(x => x.Role)
+            .ToListAsync();
+
+    public async Task<IEnumerable<User>> GetBySearchTermAsync(string searchTerm)
+        => await _users
+            .AsNoTracking()
+            .Include(x => x.Role)
+            .Where(user => user.FirstName.ToLower().Contains(searchTerm.ToLower()) || 
+                           user.LastName.ToLower().Contains(searchTerm.ToLower()) ||
+                           user.Email.ToLower().Contains(searchTerm.ToLower()))
             .ToListAsync();
 
     public async Task<User?> GetByIdAsync(Guid? id)

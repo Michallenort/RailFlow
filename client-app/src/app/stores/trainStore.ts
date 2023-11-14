@@ -65,9 +65,11 @@ export default class TrainStore {
 
   createTrain = async (train: TrainFormValues) => {
     try {
-      await agent.Trains.create(train);
+      const response = await agent.Trains.create(train);
       const newTrain = new Train(train);
       this.setTrain(newTrain);
+
+      return response;
     } catch(error) {
       console.log(error);
     }

@@ -3,8 +3,12 @@ import { useState } from "react";
 import { TrainFormValues } from "../../app/models/train";
 import agent from "../../app/api/agent";
 import { router } from "../../app/router/Routes";
+import { useStore } from "../../app/stores/store";
 
 export default observer(function CreateTrain() {
+	const {trainStore} = useStore();
+	const {createTrain} = trainStore;
+
   const [number, setNumber] = useState('');
   const [maxSpeed, setMaxSpeed] = useState('');
   const [capacity, setCapacity] = useState('');
@@ -22,21 +26,27 @@ export default observer(function CreateTrain() {
       capacity: Number(capacity)
     }
 
-    const response = await agent.Trains.create(train);
+    createTrain(train).then(response => {
+			if (response?.status === 200) {
+				setNumber('');
+				setMaxSpeed('');
+				setCapacity('');
+	
+				setDisplaySuccess(true);
+				setDisplayWarning(false);
+				setErrorMessage('');
+			} else {
+				setDisplaySuccess(false);
+				setDisplayWarning(true);
+				setErrorMessage(response?.data.reason);
+			}
+		}).catch(error => {
+			setDisplaySuccess(false);
+			setDisplayWarning(true);
+			setErrorMessage(error.data.reason);
+		});
 
-    if (response.status === 200) {
-      setNumber('');
-      setMaxSpeed('');
-      setCapacity('');
-
-      setDisplaySuccess(true);
-      setDisplayWarning(false);
-      setErrorMessage('');
-    } else {
-      setDisplaySuccess(false);
-      setDisplayWarning(true);
-      setErrorMessage(response.data.reason);
-    }
+    
   }   
 
   function handleCancel() {
@@ -48,12 +58,12 @@ export default observer(function CreateTrain() {
 			<div className='d-flex justify-content-center'>
 				{displaySuccess && (
 					<div className='col-md-6 alert alert-success' role='alert'>
-						Station added successfully!
+						Train added successfully!
 					</div>
 				)}
 				{displayWarning && (
 					<div className='col-md-6 alert alert-danger' role='alert'>
-						{errorMessage}
+						{errorMessage || 'Something went wrong!'}
 					</div>
 				)}
 			</div>

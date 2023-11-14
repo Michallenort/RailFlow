@@ -65,9 +65,11 @@ export default class StationStore {
 
   createStation = async (station: StationFormValues) => {
     try {
-      await agent.Stations.create(station);
+      const response = await agent.Stations.create(station);
       const newStation = new Station(station);
       this.setStation(newStation);
+
+      return response;
     } catch(error) {
       console.log(error);
     }

@@ -1,12 +1,18 @@
 import { makeAutoObservable, runInAction, values } from "mobx";
-import { SignInFormValues, SignUpFormValues, User } from "../models/user";
+import { CreateUserFormValues, SignInFormValues, SignUpFormValues, User } from "../models/user";
 import agent from "../api/agent";
 import { store } from "./store";
 import { router } from "../router/Routes";
 import { getLocalStorageWithExpiry, removeLocalStorage, setLocalStorageWithExpiry } from "./localStorageHandler";
+import { Pagination, PagingParams } from "../models/pagination";
 
 export default class UserStore {
-  user: User | null = null;
+  loggedUser: User | null = null;
+  users = new Map<string, User>();
+  isLoading = false;
+  pagination: Pagination | null = null;
+  pagingParams = new PagingParams();
+  searchTerm: string | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -15,11 +21,11 @@ export default class UserStore {
   }
 
   get isLoggedIn() {
-    return !!this.user;
+    return !!this.loggedUser;
   }
 
   get isAdmin() {
-    return this.user?.roleName === 'Supervisor';
+    return this.loggedUser?.roleName === 'Supervisor';
   }
 
   loadUserDetails() {
@@ -29,7 +35,7 @@ export default class UserStore {
         const userData = JSON.parse(userJson);
         userData.dateOfBirth = new Date(userData.dateOfBirth);
         runInAction(() => {
-          this.user = userData;
+          this.loggedUser = userData;
         });
       } catch (error) {
         console.log(error);
@@ -52,7 +58,7 @@ export default class UserStore {
       store.tokenStore.setToken(token.data.accessToken);
       const user = await agent.Users.accountdetails();
       runInAction(() => {
-        this.user = user.data;
+        this.loggedUser = user.data;
         this.saveUserDetails(user.data);
       });
     } catch (error) {
@@ -62,7 +68,8 @@ export default class UserStore {
 
   signUp = async (values: SignUpFormValues) => {
     try {
-      await agent.Users.signup(values);
+      const response = await agent.Users.signup(values);
+      return response;
     } catch (error) {
       throw error;
     }
@@ -70,8 +77,83 @@ export default class UserStore {
 
   logout = () => {
     store.tokenStore.setToken(null);
-    this.user = null;
+    this.loggedUser = null;
     removeLocalStorage('user');
     router.navigate('/');
   }
+
+  setPagingParams = (pagingParams: PagingParams) => {
+    this.pagingParams = pagingParams;
+  }
+
+  setSearchTerm = (searchTerm: string | null) => {
+    this.searchTerm = searchTerm;
+  }
+
+  setPagination = (pagination: Pagination) => {
+    this.pagination = pagination;
+  }
+
+  clearUsers = () => {
+    this.users.clear();
+  }
+
+  get axiosParams() {
+    const params = new URLSearchParams();
+
+    if (this.searchTerm) {
+      params.append('searchTerm', this.searchTerm);
+    }
+
+    params.append('page', this.pagingParams.page.toString());
+    params.append('pageSize', this.pagingParams.pageSize.toString());
+    return params;
+  }
+
+  private setUser = (user: User) => {
+    this.users.set(user.id, user);
+  }
+
+  loadUsers = async () => {
+    this.isLoading = true;
+    this.clearUsers();
+
+    try {
+      const result = await agent.Users.list(this.axiosParams);
+      result.data.items.forEach((user: User) => {
+        this.setUser(user);
+      });
+      this.setPagination(result.data.pagination);
+      this.isLoading = false;
+    } catch(error) {
+      console.log(error);
+      this.isLoading = false;
+    }
+  }
+
+  createUser = async (user: CreateUserFormValues) => {
+    try {
+      const response = await agent.Users.create(user);
+      const newUser = new User(user);
+      this.setUser(newUser);
+
+      return response;
+    } catch(error) {
+      console.log(error);
+    }
+  }
+
+  deleteUser = async (id: string) => {
+    this.isLoading = true;
+    try {
+      await agent.Users.delete(id);
+      runInAction(() => {
+        this.users.delete(id);
+        this.isLoading = false;
+      })
+    } catch(error) {
+      console.log(error);
+      this.isLoading = false;
+    }
+  }  
 }

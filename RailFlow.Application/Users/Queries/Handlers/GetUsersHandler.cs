@@ -1,10 +1,13 @@
+using System.Collections;
 using MediatR;
 using RailFlow.Application.Users.DTO;
+using Railflow.Core.Entities;
+using Railflow.Core.Pagination;
 using Railflow.Core.Repositories;
 
 namespace RailFlow.Application.Users.Queries.Handlers;
 
-internal sealed class GetUsersHandler : IRequestHandler<GetUsers, IEnumerable<UserDto>>
+internal sealed class GetUsersHandler : IRequestHandler<GetUsers, PagedList<UserDetailsDto>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IUserMapper _userMapper;
@@ -15,9 +18,21 @@ internal sealed class GetUsersHandler : IRequestHandler<GetUsers, IEnumerable<Us
         _userMapper = userMapper;
     }
     
-    public async Task<IEnumerable<UserDto>> Handle(GetUsers request, CancellationToken cancellationToken)
+    public async Task<PagedList<UserDetailsDto>> Handle(GetUsers request, CancellationToken cancellationToken)
     {
-        var users = await _userRepository.GetAllAsync();
-        return _userMapper.MapUserDtos(users);
+        IEnumerable<User> users;
+        
+        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
+        {
+            users = await _userRepository.GetBySearchTermAsync(request.SearchTerm);
+        }
+        else
+        {
+            users = await _userRepository.GetAllAsync();
+        }
+        
+        var pagedUsers = PagedList<UserDetailsDto>
+            .Create(_userMapper.MapUserDetailsDtos(users).ToList(), request.Page, request.PageSize);
+        return pagedUsers;
     }
 }

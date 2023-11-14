@@ -28,9 +28,10 @@ public class UserController : ControllerBase
     [SwaggerOperation("Get all users")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
+    public async Task<ActionResult<IEnumerable<UserDetailsDto>>> GetAllUsers([FromQuery] string? searchTerm, 
+        [FromQuery] int page, [FromQuery] int pageSize)
     {
-        var users = await _mediator.Send(new GetUsers());
+        var users = await _mediator.Send(new GetUsers(searchTerm, page, pageSize));
         return Ok(users);
     }
     
@@ -61,12 +62,12 @@ public class UserController : ControllerBase
     [AllowAnonymous]
     [HttpPost("sign-up")]
     [SwaggerOperation("Sign up")]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> SignUp(SignUp command)
     {
         await _mediator.Send(command);
-        return NoContent();        
+        return Ok();        
     }
     
     [AllowAnonymous]
