@@ -1,10 +1,12 @@
 using MediatR;
 using RailFlow.Application.Routes.DTO;
+using Railflow.Core.Entities;
+using Railflow.Core.Pagination;
 using Railflow.Core.Repositories;
 
 namespace RailFlow.Application.Routes.Queries.Handlers;
 
-internal sealed class GetRoutesHandler : IRequestHandler<GetRoutes, IEnumerable<RouteDto>>
+internal sealed class GetRoutesHandler : IRequestHandler<GetRoutes, PagedList<RouteDto>>
 {
     private readonly IRouteRepository _routeRepository;
     private readonly IRouteMapper _routeMapper;
@@ -15,9 +17,22 @@ internal sealed class GetRoutesHandler : IRequestHandler<GetRoutes, IEnumerable<
         _routeMapper = routeMapper;
     }
     
-    public async Task<IEnumerable<RouteDto>> Handle(GetRoutes request, CancellationToken cancellationToken)
+    public async Task<PagedList<RouteDto>> Handle(GetRoutes request, CancellationToken cancellationToken)
     {
-        var routes = await _routeRepository.GetAllAsync();
-        return _routeMapper.MapRouteDtos(routes);
+        IEnumerable<Route> routes;
+        
+        if (!string.IsNullOrWhiteSpace(request.SearchTerm))
+        {
+            routes = await _routeRepository.GetBySearchTermAsync(request.SearchTerm);
+        }
+        else
+        {
+            routes = await _routeRepository.GetAllAsync();
+        }
+        
+        var pagedRoutes = PagedList<RouteDto>
+            .Create(_routeMapper.MapRouteDtos(routes), request.Page, request.PageSize);
+        
+        return pagedRoutes;
     }
 }

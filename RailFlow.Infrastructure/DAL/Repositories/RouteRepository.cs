@@ -21,6 +21,15 @@ internal sealed class RouteRepository : IRouteRepository
             .AsNoTracking()
             .ToListAsync();
 
+    public async Task<IEnumerable<Route>> GetBySearchTermAsync(string searchTerm)
+        => await _routes
+            .Include(x => x.StartStation)
+            .Include(x => x.EndStation)
+            .Include(x => x.Train)
+            .Where(route => route.Name.ToLower().Contains(searchTerm.ToLower()))
+            .AsNoTracking()
+            .ToListAsync();
+
     public async Task<Route?> GetByIdAsync(Guid id)
         => await _routes
             .Include(x => x.StartStation)

@@ -38,9 +38,10 @@ public class RouteController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public async Task<ActionResult<IEnumerable<RouteDto>>> GetRoutes()
+    public async Task<ActionResult<IEnumerable<RouteDto>>> GetRoutes([FromQuery] string? searchTerm, 
+        [FromQuery] int page, [FromQuery] int pageSize)
     {
-        var routes = await _mediator.Send(new GetRoutes());
+        var routes = await _mediator.Send(new GetRoutes(searchTerm, page, pageSize));
         return Ok(routes);
     }
 

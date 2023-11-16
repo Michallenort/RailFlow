@@ -31,21 +31,25 @@ internal sealed class CreateRouteHandler : IRequestHandler<CreateRoute>
             throw new RouteExistsException(request.Name);
         }
         
-        if (await _stationRepository.GetByIdAsync(request.StartStationId) is null)
+        var startStation = await _stationRepository.GetByNameAsync(request.StartStationName);
+        
+        if (startStation is null)
         {
-            throw new StationNotFoundException(request.StartStationId);
+            throw new StationNotFoundException(request.StartStationName);
         }
         
-        if (await _stationRepository.GetByIdAsync(request.EndStationId) is null)
+        var endStation = await _stationRepository.GetByNameAsync(request.EndStationName);
+        
+        if (endStation is null)
         {
-            throw new StationNotFoundException(request.EndStationId);
+            throw new StationNotFoundException(request.EndStationName);
         }
 
-        var train = await _trainRepository.GetByIdAsync(request.TrainId);
+        var train = await _trainRepository.GetByNumberAsync(request.TrainNumber);
         
         if (train is null)
         {
-            throw new TrainNotFoundException(request.TrainId);
+            throw new TrainNotFoundException(request.TrainNumber);
         }
 
         if (train.AssignedRoute is not null)
@@ -53,7 +57,7 @@ internal sealed class CreateRouteHandler : IRequestHandler<CreateRoute>
             throw new TrainAssignedException(train.Id);
         }
         
-        var route = new Route(Guid.NewGuid(), request.Name, request.StartStationId, request.EndStationId, request.TrainId, false);
+        var route = new Route(Guid.NewGuid(), request.Name, startStation.Id, endStation.Id, train.Id, false);
         
         await _routeRepository.AddAsync(route);
     }

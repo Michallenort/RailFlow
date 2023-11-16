@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Station, StationFormValues } from "../models/station";
 import { PaginatedResult } from "../models/pagination";
 import { Train, TrainFormValues } from "../models/train";
+import { Route, RouteFormValues } from "../models/route";
 
 axios.defaults.baseURL = "https://localhost:44363";
 
@@ -62,10 +63,17 @@ const Trains = {
   delete: (id: string) => requests.delete(`/Train/${id}`)
 }
 
+const Routes = {
+  list: (params: URLSearchParams) => requests.getPage<PaginatedResult<Route[]>>('/Route', params).then(responseBody),
+  details: (id: string) => requests.get(`/Route/${id}`),
+  create: (route: RouteFormValues) => requests.post('/Route', route),
+}
+
 const agent = {
   Users,
   Stations,
-  Trains
+  Trains,
+  Routes
 }
 
 export default agent;

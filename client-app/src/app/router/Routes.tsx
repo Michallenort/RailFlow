@@ -7,6 +7,7 @@ import SupervisorPage from '../../features/supervisor/SupervisorPage';
 import CreateStation from '../../features/supervisor/CreateStation';
 import CreateTrain from '../../features/supervisor/CreateTrain';
 import CreateUser from '../../features/supervisor/CreateUser';
+import CreateRoute from '../../features/supervisor/CreateRoute';
 
 export const routes: RouteObject[] = [
 	{
@@ -19,7 +20,8 @@ export const routes: RouteObject[] = [
 				{path: 'supervisor', element: <SupervisorPage />},
 				{path: 'create-station', element: <CreateStation />},
 				{path: 'create-train', element: <CreateTrain />},
-				{path: 'create-user', element: <CreateUser />}
+				{path: 'create-user', element: <CreateUser />},
+				{path: 'create-route', element: <CreateRoute />}
 			]}
 		]
 	}

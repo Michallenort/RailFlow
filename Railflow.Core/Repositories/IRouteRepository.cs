@@ -5,6 +5,7 @@ namespace Railflow.Core.Repositories;
 public interface IRouteRepository
 {
     Task<IEnumerable<Route>> GetAllAsync();
+    Task<IEnumerable<Route>> GetBySearchTermAsync(string searchTerm);
     Task<Route?> GetByIdAsync(Guid id);
     Task<Route?> GetByNameAsync(string name);
     Task AddAsync(Route route);

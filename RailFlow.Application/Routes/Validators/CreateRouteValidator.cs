@@ -13,19 +13,19 @@ internal sealed class CreateRouteValidator : AbstractValidator<CreateRoute>
             .MaximumLength(25)
             .WithMessage("Name should have less than 25 chars.");
         
-        RuleFor(x => x.StartStationId)
+        RuleFor(x => x.StartStationName)
             .NotEmpty()
             .WithMessage("Start station should not be empty.")
-            .NotEqual(x => x.EndStationId)
+            .NotEqual(x => x.EndStationName)
             .WithMessage("Start station should not be equal to end station.");
             
         
-        RuleFor(x => x.EndStationId)
+        RuleFor(x => x.EndStationName)
             .NotEmpty()
             .WithMessage("End station should not be empty.");
         
-        RuleFor(x => x.TrainId)
+        RuleFor(x => x.TrainNumber)
             .NotEmpty()
-            .WithMessage("Train Id should not be empty.");
+            .WithMessage("Train number should not be empty.");
     }
 }

@@ -26,7 +26,9 @@ internal sealed class TrainRepository : ITrainRepository
             .SingleOrDefaultAsync(train => train.Id == id);
 
     public async Task<Train?> GetByNumberAsync(int number)
-        => await _trains.SingleOrDefaultAsync(train => train.Number == number);
+        => await _trains
+            .Include(x => x.AssignedRoute)
+            .SingleOrDefaultAsync(train => train.Number == number);
 
     public async Task AddAsync(Train train)
         => await _trains.AddAsync(train);
