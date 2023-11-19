@@ -26,7 +26,17 @@ internal sealed class StationRepository : IStationRepository
             .ToListAsync();
 
     public async Task<Station?> GetByIdAsync(Guid id)
-        => await _stations.SingleOrDefaultAsync(station => station.Id == id);
+        => await _stations
+            .Include(x => x.Stops)
+                .ThenInclude(x=> x.Route)
+                    .ThenInclude(x=> x.StartStation)
+            .Include(x => x.Stops)
+                .ThenInclude(x=> x.Route)
+                    .ThenInclude(x=> x.EndStation)
+            .Include(x => x.Stops)
+                .ThenInclude(x=> x.Route)
+                    .ThenInclude(x=> x.Train)
+            .SingleOrDefaultAsync(station => station.Id == id);
 
     public async Task<Station?> GetByNameAsync(string name)
         => await _stations.SingleOrDefaultAsync(station => station.Name == name);

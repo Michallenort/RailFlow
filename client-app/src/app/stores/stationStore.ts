@@ -1,10 +1,11 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { Station, StationFormValues } from "../models/station";
+import { Station, StationFormValues, StationSchedule } from "../models/station";
 import agent from "../api/agent";
 import { Pagination, PagingParams } from "../models/pagination";
 
 export default class StationStore {
   stations = new Map<string, Station>();
+  selectedStationSchedule?: StationSchedule = undefined;
   isLoading = false;
   pagination: Pagination | null = null;
   pagingParams = new PagingParams();
@@ -57,6 +58,21 @@ export default class StationStore {
       });
       this.setPagination(result.data.pagination);
       this.isLoading = false;
+    } catch(error) {
+      console.log(error);
+      this.isLoading = false;
+    }
+  }
+
+  loadStationSchedule = async (id: string) => {
+    this.isLoading = true;
+    this.selectedStationSchedule = undefined;
+    try {
+      const result = await agent.Stations.scheduleDetails(id);
+      runInAction(() => {
+        this.selectedStationSchedule = result.data;
+        this.isLoading = false;
+      })
     } catch(error) {
       console.log(error);
       this.isLoading = false;

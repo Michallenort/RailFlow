@@ -18,6 +18,11 @@ export default observer(function NavBar() {
                 Home
               </NavLink>
             </li>
+            <li>
+              <NavLink className="nav-link" to="/stations">
+                Stations
+              </NavLink>
+            </li>
             {isAdmin &&
             <li className="nav-item">
               <NavLink className="nav-link" to="/supervisor">

@@ -10,6 +10,8 @@ import CreateUser from '../../features/supervisor/CreateUser';
 import CreateRoute from '../../features/supervisor/CreateRoute';
 import RouteDetails from '../../features/supervisor/RouteDetails';
 import CreateStop from '../../features/supervisor/CreateStop';
+import StationsList from '../../features/users/StationsList';
+import StationSchedule from '../../features/users/StationSchedule';
 
 export const routes: RouteObject[] = [
 	{
@@ -18,6 +20,8 @@ export const routes: RouteObject[] = [
 		children: [
 			{path: 'signin', element: <SignInForm />},
 			{path: 'signup', element: <SignUpForm />},
+			{path: 'stations', element: <StationsList />},
+			{path: 'stations/:id', element: <StationSchedule />},
 			{element: <RequireAdmin />, children: [
 				{path: 'supervisor', element: <SupervisorPage />},
 				{path: 'create-station', element: <CreateStation />},

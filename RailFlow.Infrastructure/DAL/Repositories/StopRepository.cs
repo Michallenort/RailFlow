@@ -24,6 +24,11 @@ internal sealed class StopRepository : IStopRepository
             .Include(x => x.Station)
             .ToListAsync();
 
+    public async Task<IEnumerable<Stop>> GetByStationIdAsync(Guid stationId)
+        => await _stops.Where(s => s.StationId == stationId)
+            .Include(x => x.Route)
+            .ToListAsync();
+
     public async Task<Stop?> GetByRouteIdAndStationIdAsync(Guid routeId, Guid stationId)
         => await _stops.SingleOrDefaultAsync(s => s.RouteId == routeId && s.StationId == stationId);
 

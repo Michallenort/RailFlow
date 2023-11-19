@@ -4,7 +4,7 @@ using Railflow.Core.Repositories;
 
 namespace RailFlow.Application.Routes.Commands.Handlers;
 
-public class DeleteRouteHandler : IRequestHandler<DeleteRoute>
+internal class DeleteRouteHandler : IRequestHandler<DeleteRoute>
 {
     private readonly IRouteRepository _routeRepository;
     

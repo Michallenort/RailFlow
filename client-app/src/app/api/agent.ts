@@ -3,7 +3,7 @@ import { CreateUserFormValues, SignInFormValues, SignUpFormValues, User } from "
 import { store } from "../stores/store";
 import { router } from "../router/Routes";
 import { toast } from "react-toastify";
-import { Station, StationFormValues } from "../models/station";
+import { Station, StationFormValues, StationSchedule } from "../models/station";
 import { PaginatedResult } from "../models/pagination";
 import { Train, TrainFormValues } from "../models/train";
 import { Route, RouteDetails, RouteFormValues } from "../models/route";
@@ -53,6 +53,7 @@ const Users = {
 const Stations = {
   list: (params: URLSearchParams) => requests.getPage<PaginatedResult<Station[]>>('/Station', params).then(responseBody),
   details: (id: string) => requests.get(`/Station/${id}`),
+  scheduleDetails: (id: string) => requests.get<StationSchedule>(`/Station/schedule/${id}`),
   create: (station: StationFormValues) => requests.post('/Station', station),
   delete: (id: string) => requests.delete(`/Station/${id}`)
 }

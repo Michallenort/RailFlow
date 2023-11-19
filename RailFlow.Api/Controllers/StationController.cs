@@ -43,6 +43,18 @@ public class StationController : ControllerBase
         var station = await _mediator.Send(new GetStationDetails(stationId));
         return Ok(station);
     }
+    
+    [AllowAnonymous]
+    [HttpGet("schedule/{stationId:guid}")]
+    [SwaggerOperation("Get station schedule")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<StationScheduleDto>> GetStationSchedule(Guid stationId)
+    {
+        var station = await _mediator.Send(new GetStationSchedule(stationId));
+        return Ok(station);
+    }
   
     [Authorize(Roles = "Supervisor")]
     [HttpPost]
