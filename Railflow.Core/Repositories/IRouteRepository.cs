@@ -10,4 +10,5 @@ public interface IRouteRepository
     Task<Route?> GetByNameAsync(string name);
     Task AddAsync(Route route);
     Task UpdateAsync(Route route);
+    Task DeleteAsync(Route route);
 }

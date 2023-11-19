@@ -5,10 +5,11 @@ import { PagingParams } from "../../../app/models/pagination";
 import SpinnerLoading from "../../../app/common/SpinnerLoading";
 import { Pagination } from "../../../app/common/Pagination";
 import { Link } from "react-router-dom";
+import { router } from "../../../app/router/Routes";
 
 export default observer(function RouteMaintenance() {
   const {routeStore} = useStore();
-  const {loadRoutes, routes, setPagingParams, pagination, isLoading, searchTerm, setSearchTerm} = routeStore;
+  const {loadRoutes, loadRoute, routes, setPagingParams, pagination, isLoading, searchTerm, setSearchTerm, updateActive, deleteRoute} = routeStore;
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -24,6 +25,11 @@ export default observer(function RouteMaintenance() {
     setCurrentPage(1);
     setPagingParams(new PagingParams(1, 10));
     loadRoutes();
+  }
+
+  const hanleEdit = (id: string) => {
+    loadRoute(id);
+    router.navigate(`/route-details/${id}`);
   }
 
   if (isLoading) {
@@ -69,7 +75,12 @@ export default observer(function RouteMaintenance() {
                 <td>{route.endStationName}</td>
                 <td>{route.trainNumber}</td>
                 <td>
-                  <button className="btn btn-danger" onClick={() => {}}>Delete</button>
+                  <button  className="btn btn-primary mx-1" 
+                    onClick={() => updateActive(route.id)}>
+                    {route.isActive ? 'Deactivate' : 'Activate'}
+                  </button>
+                  <button className="btn btn-primary mx-1" onClick={() => hanleEdit(route.id)}>Edit</button>
+                  <button className="btn btn-danger" onClick={() => deleteRoute(route.id)}>Delete</button>
                 </td>
               </tr>
             ))}

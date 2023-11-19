@@ -14,7 +14,7 @@ internal sealed class RouteMapper : IRouteMapper
 {
     public IEnumerable<RouteDto> MapRouteDtos(IEnumerable<Route> routes)
         => routes.Select(x => new RouteDto(x.Id, x.Name, x.StartStation!.Name, 
-            x.EndStation!.Name, x.Train!.Number));
+            x.EndStation!.Name, x.Train!.Number, x.IsActive));
     
     public RouteDetailsDto MapRouteDetailsDto(Route route, IEnumerable<Stop> stops)
         => new RouteDetailsDto(route.Id, route.Name, route.StartStation!.Name,

@@ -26,14 +26,16 @@ internal sealed class CreateStopHandler : IRequestHandler<CreateStop>
     {
         await _validator.ValidateAndThrowAsync(request, cancellationToken);
         
-        if (await _stopRepository.GetByRouteIdAndStationIdAsync(request.RouteId, request.StationId) is not null)
+        var station = await _stationRepository.GetByNameAsync(request.StationName);
+        
+        if (station is null)
         {
-            throw new StopExistsException(request.RouteId);
+            throw new StationNotFoundException(request.StationName);
         }
         
-        if (await _stationRepository.GetByIdAsync(request.StationId) is null)
+        if (await _stopRepository.GetByRouteIdAndStationIdAsync(request.RouteId, station.Id) is not null)
         {
-            throw new StationNotFoundException(request.StationId);
+            throw new StopExistsException(request.RouteId);
         }
         
         if (await _routeRepository.GetByIdAsync(request.RouteId) is null)
@@ -44,16 +46,16 @@ internal sealed class CreateStopHandler : IRequestHandler<CreateStop>
         var stops = await _stopRepository.GetByRouteIdAsync(request.RouteId);
         
         if (stops.Any(stop => 
-                (stop.ArrivalHour > request.ArrivalHour && stop.DepartureHour < request.DepartureHour) ||
-                (stop.ArrivalHour < request.ArrivalHour && stop.DepartureHour > request.DepartureHour) ||
-                (stop.ArrivalHour > request.ArrivalHour && stop.ArrivalHour < request.DepartureHour) ||
-                (stop.DepartureHour > request.ArrivalHour && stop.DepartureHour < request.DepartureHour))
+                (stop.ArrivalHour > request.ArrivalTime && stop.DepartureHour < request.DepartureTime) ||
+                (stop.ArrivalHour < request.ArrivalTime && stop.DepartureHour > request.DepartureTime) ||
+                (stop.ArrivalHour > request.ArrivalTime && stop.ArrivalHour < request.DepartureTime) ||
+                (stop.DepartureHour > request.ArrivalTime && stop.DepartureHour < request.DepartureTime))
             )
         {
             throw new StopTimeConflictException();
         }
         
-        var stop = new Stop(Guid.NewGuid(), request.ArrivalHour, request.DepartureHour, request.StationId, request.RouteId);
+        var stop = new Stop(Guid.NewGuid(), request.ArrivalTime, request.DepartureTime, station.Id, request.RouteId);
         
         await _stopRepository.AddAsync(stop);
     }

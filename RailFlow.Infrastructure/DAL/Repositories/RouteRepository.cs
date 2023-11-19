@@ -46,4 +46,7 @@ internal sealed class RouteRepository : IRouteRepository
 
     public async Task UpdateAsync(Route route)
         => await Task.Run(() => _routes.Update(route));
+
+    public async Task DeleteAsync(Route route)
+        => await Task.Run(() => _routes.Remove(route));
 }

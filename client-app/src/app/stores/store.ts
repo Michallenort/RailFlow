@@ -4,6 +4,7 @@ import TokenStore from "./tokenStore";
 import StationStore from "./stationStore";
 import TrainStore from "./trainStore";
 import RouteStore from "./routeStore";
+import StopStore from "./stopStore";
 
 interface Store {
   userStore: UserStore;
@@ -11,6 +12,7 @@ interface Store {
   stationStore: StationStore;
   trainStore: TrainStore;
   routeStore: RouteStore;
+  stopStore: StopStore;
 }
 
 export const store: Store = {
@@ -18,7 +20,8 @@ export const store: Store = {
   tokenStore: new TokenStore(),
   stationStore: new StationStore(),
   trainStore: new TrainStore(),
-  routeStore: new RouteStore()
+  routeStore: new RouteStore(),
+  stopStore: new StopStore()
 }
 
 export const StoreContext = createContext(store);

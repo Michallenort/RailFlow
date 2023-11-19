@@ -1,12 +1,12 @@
-import { observer } from "mobx-react-lite";
-import { useStore } from "../../app/stores/store";
-import { useState } from "react";
-import { router } from "../../app/router/Routes";
-import { RouteFormValues } from "../../app/models/route";
+import { observer } from 'mobx-react-lite'
+import { useStore } from '../../app/stores/store'
+import { useState } from 'react'
+import { router } from '../../app/router/Routes'
+import { RouteFormValues } from '../../app/models/route'
 
 export default observer(function CreateRoute() {
-  const {routeStore} = useStore();
-	const {createStation} = routeStore;
+	const { routeStore } = useStore()
+	const { createRoute: createStation } = routeStore
 
 	const [name, setName] = useState('')
 	const [startStationName, setStartStationName] = useState('')
@@ -16,45 +16,47 @@ export default observer(function CreateRoute() {
 	const [displayWarning, setDisplayWarning] = useState(false)
 	const [displaySuccess, setDisplaySuccess] = useState(false)
 	const [errorMessage, setErrorMessage] = useState('')
-  
+
 	async function handleSubmit(e: any) {
 		e.preventDefault()
 
 		const station: RouteFormValues = {
 			name: name,
 			startStationName: startStationName,
-      endStationName: endStationName,
-      trainNumber: Number(trainNumber)
+			endStationName: endStationName,
+			trainNumber: Number(trainNumber),
 		}
 
-		createStation(station).then(response => {
-			if (response?.status === 200) {
-				setName('')
-				setStartStationName('')
-				setEndStationName('')
-				setTrainNumber('')
-	
-				setDisplaySuccess(true)
-				setDisplayWarning(false)
-				setErrorMessage('')
-			} else {
+		createStation(station)
+			.then(response => {
+				if (response?.status === 200) {
+					setName('')
+					setStartStationName('')
+					setEndStationName('')
+					setTrainNumber('')
+
+					setDisplaySuccess(true)
+					setDisplayWarning(false)
+					setErrorMessage('')
+				} else {
+					setDisplaySuccess(false)
+					setDisplayWarning(true)
+					setErrorMessage(response?.data.reason)
+				}
+			})
+			.catch(error => {
 				setDisplaySuccess(false)
 				setDisplayWarning(true)
-				setErrorMessage(response?.data.reason)
-			}
-		}).catch(error => {
-			setDisplaySuccess(false)
-			setDisplayWarning(true)
-			setErrorMessage(error.data.reason)
-		})
+				setErrorMessage(error.data.reason)
+			})
 	}
 
-  function handleCancel() {
-    router.navigate('/supervisor');
-  }
+	function handleCancel() {
+		router.navigate('/supervisor')
+	}
 
-  return (
-    <div className='container mt-5 mb-5'>
+	return (
+		<div className='container mt-5 mb-5'>
 			<div className='d-flex justify-content-center'>
 				{displaySuccess && (
 					<div className='col-md-6 alert alert-success' role='alert'>
@@ -116,8 +118,8 @@ export default observer(function CreateRoute() {
 									<label htmlFor='trainNumber'>Train</label>
 									<input
 										type='number'
-                    min='100000'
-                    max='999999'
+										min='100000'
+										max='999999'
 										className='form-control'
 										id='trainNumber'
 										placeholder='Train'
@@ -131,9 +133,9 @@ export default observer(function CreateRoute() {
 									<button className='col-md-3 btn btn-primary' onClick={e => handleSubmit(e)}>
 										Submit
 									</button>
-									<button className="col-md-3 mx-2 btn btn-outline-primary" onClick={handleCancel}>
-                    Cancel
-                  </button>
+									<button className='col-md-3 mx-2 btn btn-outline-primary' onClick={handleCancel}>
+										Cancel
+									</button>
 								</div>
 							</div>
 						</form>
@@ -141,5 +143,5 @@ export default observer(function CreateRoute() {
 				</div>
 			</div>
 		</div>
-  );
-});
+	)
+})

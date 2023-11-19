@@ -26,7 +26,7 @@ public class StopController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public async Task<ActionResult> GetStopsByRouteId(Guid routeId)
+    public async Task<ActionResult<IEnumerable<StopDto>>> GetStopsByRouteId(Guid routeId)
     {
         var stops = await _mediator.Send(new GetStops(routeId));
         return Ok(stops);

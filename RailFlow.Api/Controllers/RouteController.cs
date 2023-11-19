@@ -86,4 +86,17 @@ public class RouteController : ControllerBase
         await _mediator.Send(new UpdateActive(routeId));
         return Ok();
     }
+    
+    [Authorize(Roles = "Supervisor")]
+    [HttpDelete("{routeId:guid}")]
+    [SwaggerOperation("Delete route")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DeleteRoute(Guid routeId)
+    {
+        await _mediator.Send(new DeleteRoute(routeId));
+        return NoContent();
+    }
 }
