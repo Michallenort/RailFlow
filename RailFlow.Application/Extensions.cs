@@ -3,6 +3,7 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 using MediatR.NotificationPublishers;
+using RailFlow.Application.Connections;
 using RailFlow.Application.Routes;
 using RailFlow.Application.Routes.Commands;
 using RailFlow.Application.Routes.Validators;
@@ -49,6 +50,7 @@ public static class Extensions
         services.AddScoped<ITrainMapper, TrainMapper>();
         services.AddScoped<IStopMapper, StopMapper>();
         services.AddScoped<IRouteMapper, RouteMapper>();
+        services.AddScoped<IConnectionMapper, ConnectionMapper>();
         
         return services;
     }

@@ -50,58 +50,33 @@ internal sealed class ConnectionService : IConnectionService
                 FirstOrDefault(stop => stop.Station.Name == startStation);
             
             foreach (var stopStartStation in scheduleWithStartStation.Route.Stops.
-                         Where(stop => stop.ArrivalHour > startStop!.DepartureHour).ToList())
+                         Where(stop => stop.ArrivalHour > startStop!.DepartureHour).OrderBy(x => x.ArrivalHour).ToList())
             {
-                var middleStop = schedulesWithEndStation
-                    .Where(x => x.Route.Stops.Any(stop => stop.Station.Name == stopStartStation.Station.Name));
+                var transferedSchedules = schedulesWithEndStation
+                    .Where(x => x.Route.Stops.Any(stop => stop.Station.Name == stopStartStation.Station.Name)).ToList();
+
+                foreach (var transferedSchedule in transferedSchedules)
+                {
+                    var transferStop = transferedSchedule.Route.Stops.
+                        FirstOrDefault(stop => stop.Station.Name == stopStartStation.Station.Name);
+
+                    if (transferStop != null && transferStop.DepartureHour > stopStartStation.ArrivalHour)
+                    {
+                        var startConnection = new SubConnection(scheduleWithStartStation,
+                            scheduleWithStartStation.Route.Stops.Where(stop =>
+                                stop.ArrivalHour > startStop!.DepartureHour));
+                        
+                        var transferConnection = new SubConnection(transferedSchedule,
+                            transferedSchedule.Route.Stops.Where(stop =>
+                                stop.ArrivalHour > transferStop!.DepartureHour));
+                        
+                        schedulesWithTransfer.Add(new Connection(
+                            new List<SubConnection>() {startConnection, transferConnection}));
+                    }
+                }
             }
         }
 
         return schedulesWithTransfer;
-
-        // foreach (var schedule in schedulesWithStartStation)
-        // {
-        //     var route = schedule.Route;
-        //     var startStationStop = route.Stops.FirstOrDefault(stop => stop.Station.Name == startStation);
-        //     var endStationStop = route.Stops.FirstOrDefault(stop => stop.Station.Name == endStation);
-        //     var transferStations = route.Stops
-        //         .Where(stop => stop.ArrivalHour > startStationStop!.DepartureHour &&
-        //                        stop.DepartureHour < endStationStop!.ArrivalHour &&
-        //                        stop.Station.Name != startStation &&
-        //                        stop.Station.Name != endStation)
-        //         .ToList();
-        //
-        //     foreach (var transferStation in transferStations)
-        //     {
-        //         var transferStationStop =
-        //             route.Stops.FirstOrDefault(stop => stop.Station.Name == transferStation.Station.Name);
-        //         var transferStationSchedule = schedulesWithEndStation
-        //             .FirstOrDefault(x => x.Route.Stops.Any(stop => stop.Station.Name == transferStation.Station.Name));
-        //         if (transferStationSchedule is null)
-        //         {
-        //             continue;
-        //         }
-        //
-        //         var transferStationEndStationStop = transferStationSchedule.Route.Stops
-        //             .FirstOrDefault(stop => stop.Station.Name == endStation);
-        //         if (transferStationEndStationStop is null)
-        //         {
-        //             continue;
-        //         }
-        //
-        //         if (transferStationStop is null)
-        //         {
-        //             continue;
-        //         }
-        //
-        //         if (transferStationStop.ArrivalHour > transferStationEndStationStop.ArrivalHour)
-        //         {
-        //             continue;
-        //         }
-        //
-        //         schedulesWithTransfer.Add(new Connection(schedule.Route, startStationStop, transferStationStop,
-        //             transferStationEndStationStop));
-        //     }
-        // }
     }
 }
