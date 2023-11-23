@@ -3,6 +3,9 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using MediatR;
 using MediatR.NotificationPublishers;
+using RailFlow.Application.Assignments;
+using RailFlow.Application.Assignments.Commands;
+using RailFlow.Application.Assignments.Validators;
 using RailFlow.Application.Connections;
 using RailFlow.Application.Routes;
 using RailFlow.Application.Routes.Commands;
@@ -44,6 +47,7 @@ public static class Extensions
         services.AddScoped<IValidator<CreateRoute>, CreateRouteValidator>();
         services.AddScoped<IValidator<CreateStop>, CreateStopValidator>();
         services.AddScoped<IValidator<UpdateRoute>, UpdateRouteValidator>();
+        services.AddScoped<IValidator<CreateAssignment>, CreateAssignmentValidator>();
         
         services.AddScoped<IUserMapper, UserMapper>();
         services.AddScoped<IStationMapper, StationMapper>();
@@ -51,6 +55,7 @@ public static class Extensions
         services.AddScoped<IStopMapper, StopMapper>();
         services.AddScoped<IRouteMapper, RouteMapper>();
         services.AddScoped<IConnectionMapper, ConnectionMapper>();
+        services.AddScoped<IAssignmentMapper, AssignmentMapper>();
         
         return services;
     }

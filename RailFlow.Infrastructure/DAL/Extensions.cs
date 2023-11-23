@@ -25,6 +25,7 @@ internal static class Extensions
         services.AddScoped<IRouteRepository, RouteRepository>();
         services.AddScoped<IStopRepository, StopRepository>();
         services.AddScoped<IScheduleRepository, ScheduleRepository>();
+        services.AddScoped<IEmployeeAssignmentRepository, EmployeeAssignmentRepository>();
         
         services.AddHostedService<Seeder>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();

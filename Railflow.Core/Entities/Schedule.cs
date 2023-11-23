@@ -6,6 +6,7 @@ public class Schedule
     public DateOnly Date { get; private set; }
     public Guid RouteId { get; private set; }
     public Route Route { get; private set; }
+    public ICollection<EmployeeAssignment> EmployeeAssignments { get; private set; }
 
     public Schedule()
     {

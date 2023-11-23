@@ -23,6 +23,10 @@ internal sealed class ScheduleRepository : IScheduleRepository
             .ThenInclude(x => x.Train)
             .ToListAsync();
 
+    public async Task<Schedule?> GetByNameAndDateAsync(string name, DateOnly date)
+        => await _schedules
+            .SingleOrDefaultAsync(schedule => schedule.Route.Name == name && schedule.Date == date);
+
     public async Task AddRangeAsync(IEnumerable<Schedule> schedules)
         => await _schedules.AddRangeAsync(schedules);
 
