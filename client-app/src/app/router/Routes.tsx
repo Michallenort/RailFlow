@@ -12,6 +12,8 @@ import RouteDetails from '../../features/supervisor/RouteDetails';
 import CreateStop from '../../features/supervisor/CreateStop';
 import StationsList from '../../features/users/StationsList';
 import StationSchedule from '../../features/users/StationSchedule';
+import ScheduleDetails from '../../features/supervisor/ScheduleDetails';
+import CreateAssignment from '../../features/supervisor/CreateAssignment';
 
 export const routes: RouteObject[] = [
 	{
@@ -29,7 +31,9 @@ export const routes: RouteObject[] = [
 				{path: 'create-user', element: <CreateUser />},
 				{path: 'create-route', element: <CreateRoute />},
 				{path: 'route-details/:id', element: <RouteDetails />},
-				{path: 'create-stop/:routeId', element: <CreateStop />}
+				{path: 'create-stop/:routeId', element: <CreateStop />},
+				{path: 'schedule-details/:id', element: <ScheduleDetails />},
+				{path: 'create-assignment/:scheduleId', element: <CreateAssignment />}
 			]}
 		]
 	}

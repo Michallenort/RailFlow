@@ -33,11 +33,11 @@ internal class CreateAssignmentHandler : IRequestHandler<CreateAssignment>
             throw new UserNotFoundException(request.UserEmail);
         }
         
-        var schedule = await _scheduleRepository.GetByNameAndDateAsync(request.RouteName, request.Date);
+        var schedule = await _scheduleRepository.GetByIdAsync(request.ScheduleId);
         
         if (schedule is null)
         {
-            throw new ScheduleNotFoundException(request.RouteName, request.Date);
+            throw new ScheduleNotFoundException(request.ScheduleId);
         }
         
         var assignment = new EmployeeAssignment(Guid.NewGuid(), user.Id, schedule.Id , request.StartHour, request.EndHour);

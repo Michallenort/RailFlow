@@ -3,6 +3,7 @@ import UserMaintenance from "./components/UserMaintenance";
 import TrainMaintenance from "./components/TrainMaintenance";
 import StationMaintenance from "./components/StationMaintenance";
 import RouteMaintenance from "./components/RouteMaintenance";
+import ScheduleMaintanance from "./components/ScheduleMaintanance";
 
 export default function SupervisorPage() {
 
@@ -10,12 +11,14 @@ export default function SupervisorPage() {
   const [trainMaintenance, setTrainMaintenance] = useState(false);
   const [stationMaintenance, setStationMaintenance] = useState(false);
   const [routeMaintenance, setRouteMaintenance] = useState(false);
+  const [scheduleMaintenance, setScheduleMaintenance] = useState(false);
 
   function userMaintananceFunction() {
     setUserMaintenance(true);
     setTrainMaintenance(false);
     setStationMaintenance(false);
     setRouteMaintenance(false);
+    setScheduleMaintenance(false);
   }
 
   function trainMaintananceFunction() {
@@ -23,6 +26,7 @@ export default function SupervisorPage() {
     setTrainMaintenance(true);
     setStationMaintenance(false);
     setRouteMaintenance(false);
+    setScheduleMaintenance(false);
   }
 
   function stationMaintananceFunction() {
@@ -30,6 +34,7 @@ export default function SupervisorPage() {
     setTrainMaintenance(false);
     setStationMaintenance(true);
     setRouteMaintenance(false);
+    setScheduleMaintenance(false);
   }
 
   function routeMaintananceFunction() {
@@ -37,6 +42,15 @@ export default function SupervisorPage() {
     setTrainMaintenance(false);
     setStationMaintenance(false);
     setRouteMaintenance(true);
+    setScheduleMaintenance(false);
+  }
+
+  function scheduleMaintananceFunction() {
+    setUserMaintenance(false);
+    setTrainMaintenance(false);
+    setStationMaintenance(false);
+    setRouteMaintenance(false);
+    setScheduleMaintenance(true);
   }
 
   return (
@@ -93,6 +107,18 @@ export default function SupervisorPage() {
               aria-selected='false'>
               Route Maintenance
             </button>
+            <button
+              onClick={scheduleMaintananceFunction}
+              className='nav-link'
+              id='nav-schedule-tab'
+              data-bs-toggle='tab'
+              data-bs-target='#nav-schedule'
+              type='button'
+              role='tab'
+              aria-controls='nav-schedule'
+              aria-selected='false'>
+              Schedule Maintenance
+            </button>
           </div>
         </nav>
         <div className='tab-content' id='nav-tabContent'>
@@ -112,6 +138,9 @@ export default function SupervisorPage() {
           <div className='tab-pane fade' id='nav-route' role='tabpanel' aria-labelledby='nav-route-tab'>
 						{routeMaintenance ? <RouteMaintenance /> : <></>}
 					</div>
+          <div className='tab-pane fade' id='nav-schedule' role='tabpanel' aria-labelledby='nav-schedule-tab'>
+            {scheduleMaintenance ? <ScheduleMaintanance /> : <></>}
+          </div>
         </div>
       </div>
     </div>

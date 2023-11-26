@@ -11,6 +11,6 @@ public interface IAssignmentMapper
 internal class AssignmentMapper :  IAssignmentMapper
 {
     public IEnumerable<AssignmentDto> MapAssignmentDtos(IEnumerable<EmployeeAssignment> assignment)
-        => assignment.Select(x => new AssignmentDto(x.Id, x.User.FirstName + " " + x.User.LastName, 
+        => assignment.Select(x => new AssignmentDto(x.Id, x.User.Email, 
             x.ScheduleId, x.StartHour, x.EndHour));
 }

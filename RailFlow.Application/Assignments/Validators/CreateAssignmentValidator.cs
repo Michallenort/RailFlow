@@ -13,13 +13,9 @@ internal sealed class CreateAssignmentValidator : AbstractValidator<CreateAssign
             .EmailAddress()
             .WithMessage("User email should be a valid email address.");
         
-        RuleFor(x => x.RouteName)
+        RuleFor(x => x.ScheduleId)
             .NotEmpty()
-            .WithMessage("Route name should not be empty.");
-        
-        RuleFor(x => x.Date)
-            .NotEmpty()
-            .WithMessage("Date should not be empty.");
+            .WithMessage("Schedule Id should not be empty.");
         
         RuleFor(x => x.StartHour)
             .NotEmpty()
