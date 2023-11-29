@@ -92,7 +92,10 @@ export default class RouteStore {
 				routeDetails.data.stops.forEach((stop: Stop) => {
 					store.stopStore.setStop(stop)
 				})
-				runInAction(() => (this.selectedRoute = route))
+				runInAction(() => {
+					route = this.getRoute(id);
+					this.selectedRoute = route;
+				})
 				this.isLoading = false
 				return route
 			} catch (error) {

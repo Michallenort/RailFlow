@@ -8,6 +8,8 @@ import { PaginatedResult } from "../models/pagination";
 import { Train, TrainFormValues } from "../models/train";
 import { Route, RouteDetails, RouteFormValues } from "../models/route";
 import { Stop, StopFormValues } from "../models/stop";
+import { Schedule, ScheduleDetails } from "../models/schedule";
+import { Assignment, AssignmentFormValues } from "../models/assignment";
 
 axios.defaults.baseURL = "https://localhost:44363";
 
@@ -79,12 +81,26 @@ const Stops = {
   delete: (id: string) => requests.delete(`/Stop/${id}`)
 }
 
+const Schedules = {
+  list: (params: URLSearchParams) => requests.getPage<PaginatedResult<Schedule[]>>
+  ('/Schedule', params).then(responseBody),
+  details: (id: string) => requests.get<ScheduleDetails>(`/Schedule/${id}`),
+}
+
+const Assignments = {
+  list: (scheduleId: string) => requests.get<Assignment[]>(`/Assignment/${scheduleId}`),
+  create: (assignment: AssignmentFormValues) => requests.post('/Assignment', assignment),
+  delete: (id: string) => requests.delete(`/Assignment/${id}`)
+}
+
 const agent = {
   Users,
   Stations,
   Trains,
   Routes,
-  Stops
+  Stops,
+  Schedules,
+  Assignments
 }
 
 export default agent;

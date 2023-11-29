@@ -10,6 +10,7 @@ using RailFlow.Application.Connections;
 using RailFlow.Application.Routes;
 using RailFlow.Application.Routes.Commands;
 using RailFlow.Application.Routes.Validators;
+using RailFlow.Application.Schedules;
 using RailFlow.Application.Stations;
 using RailFlow.Application.Stations.Commands;
 using RailFlow.Application.Stations.Validators;
@@ -56,6 +57,7 @@ public static class Extensions
         services.AddScoped<IRouteMapper, RouteMapper>();
         services.AddScoped<IConnectionMapper, ConnectionMapper>();
         services.AddScoped<IAssignmentMapper, AssignmentMapper>();
+        services.AddScoped<IScheduleMapper, ScheduleMapper>();
         
         return services;
     }

@@ -5,6 +5,8 @@ import StationStore from "./stationStore";
 import TrainStore from "./trainStore";
 import RouteStore from "./routeStore";
 import StopStore from "./stopStore";
+import ScheduleStore from "./scheduleStore";
+import AssignmentStore from "./assignmentsStore";
 
 interface Store {
   userStore: UserStore;
@@ -13,6 +15,8 @@ interface Store {
   trainStore: TrainStore;
   routeStore: RouteStore;
   stopStore: StopStore;
+  scheduleStore: ScheduleStore;
+  assignmentStore: AssignmentStore;
 }
 
 export const store: Store = {
@@ -21,7 +25,9 @@ export const store: Store = {
   stationStore: new StationStore(),
   trainStore: new TrainStore(),
   routeStore: new RouteStore(),
-  stopStore: new StopStore()
+  stopStore: new StopStore(),
+  scheduleStore: new ScheduleStore(),
+  assignmentStore: new AssignmentStore()
 }
 
 export const StoreContext = createContext(store);
