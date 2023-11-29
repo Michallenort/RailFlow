@@ -18,6 +18,11 @@ export default observer(function NavBar() {
                 Home
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/search">
+                Search
+              </NavLink>
+            </li>
             <li>
               <NavLink className="nav-link" to="/stations">
                 Stations

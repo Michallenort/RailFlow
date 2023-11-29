@@ -3,6 +3,7 @@ import HomePage from '../../features/home/HomePage';
 import NavBar from './NavBar';
 import './App.css';
 import { observer } from 'mobx-react-lite';
+import Footer from './Footer';
 
 function App() {
 
@@ -19,7 +20,7 @@ function App() {
           </>
         )}
       </div>
-      
+      <Footer />
     </>
   );
 }
