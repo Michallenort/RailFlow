@@ -7,6 +7,7 @@ import RouteStore from "./routeStore";
 import StopStore from "./stopStore";
 import ScheduleStore from "./scheduleStore";
 import AssignmentStore from "./assignmentsStore";
+import ConnectionStore from "./connectionStore";
 
 interface Store {
   userStore: UserStore;
@@ -17,6 +18,7 @@ interface Store {
   stopStore: StopStore;
   scheduleStore: ScheduleStore;
   assignmentStore: AssignmentStore;
+  connectionStore: ConnectionStore;
 }
 
 export const store: Store = {
@@ -27,7 +29,8 @@ export const store: Store = {
   routeStore: new RouteStore(),
   stopStore: new StopStore(),
   scheduleStore: new ScheduleStore(),
-  assignmentStore: new AssignmentStore()
+  assignmentStore: new AssignmentStore(),
+  connectionStore: new ConnectionStore()
 }
 
 export const StoreContext = createContext(store);

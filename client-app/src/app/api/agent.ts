@@ -10,6 +10,7 @@ import { Route, RouteDetails, RouteFormValues } from "../models/route";
 import { Stop, StopFormValues } from "../models/stop";
 import { Schedule, ScheduleDetails } from "../models/schedule";
 import { Assignment, AssignmentFormValues } from "../models/assignment";
+import { Connection } from "../models/connection";
 
 axios.defaults.baseURL = "https://localhost:44363";
 
@@ -93,6 +94,11 @@ const Assignments = {
   delete: (id: string) => requests.delete(`/Assignment/${id}`)
 }
 
+const Connections = {
+  list: (startStation: string, endStation: string, date: string) => requests.get<Connection[]>(
+    `/Connection?startStation=${startStation}&endStation=${endStation}&date=${date}`) 
+}
+
 const agent = {
   Users,
   Stations,
@@ -100,7 +106,8 @@ const agent = {
   Routes,
   Stops,
   Schedules,
-  Assignments
+  Assignments,
+  Connections
 }
 
 export default agent;

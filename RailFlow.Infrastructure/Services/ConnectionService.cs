@@ -71,7 +71,7 @@ internal sealed class ConnectionService : IConnectionService
                                 stop.ArrivalHour > transferStop!.DepartureHour));
                         
                         schedulesWithTransfer.Add(new Connection(
-                            new List<SubConnection>() {startConnection, transferConnection}));
+                            new List<SubConnection>() {startConnection, transferConnection}, 0.0f));
                     }
                 }
             }

@@ -39,7 +39,10 @@ internal class GetConnectionsHandler : IRequestHandler<GetConnections, IEnumerab
                             .FirstOrDefault(stop => stop.Station.Name == request.StartStation)!.DepartureHour && 
                         x.DepartureHour < schedule.Route.Stops.FirstOrDefault(stop => stop.Station.Name == request.EndStation)!
                             .ArrivalHour)),
-                })));
+                }, schedule.Route.Stops.Count(x => x.ArrivalHour > schedule.Route.Stops
+                                                       .FirstOrDefault(stop => stop.Station.Name == request.StartStation)!.DepartureHour && 
+                                                   x.DepartureHour < schedule.Route.Stops.FirstOrDefault(stop => stop.Station.Name == request.EndStation)!
+                                                       .ArrivalHour) * 0.08f)));
         }
 
         var schedulesWithStartStation = schedules
@@ -82,7 +85,8 @@ internal class GetConnectionsHandler : IRequestHandler<GetConnections, IEnumerab
                                     .ArrivalHour >= stop.ArrivalHour).OrderBy(x => x.ArrivalHour));
                         
                         schedulesWithTransfer.Add(new Connection(
-                            new List<SubConnection>() {startConnection, transferConnection}));
+                            new List<SubConnection>() {startConnection, transferConnection}, 
+                            (startConnection.Stops.Count() + transferConnection.Stops.Count()) * 0.08f));
                     }
                 }
             }

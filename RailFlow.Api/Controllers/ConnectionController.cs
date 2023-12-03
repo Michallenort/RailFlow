@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RailFlow.Application.Connections.DTO;
 using RailFlow.Application.Connections.Queries;
 using Railflow.Core.Services;
 using Railflow.Core.ValueObjects;
@@ -20,7 +21,7 @@ public class ConnectionController : ControllerBase
     
     [AllowAnonymous]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Connection>>> GetConnections([FromQuery] string startStation, [FromQuery] string endStation, [FromQuery] DateOnly date)
+    public async Task<ActionResult<IEnumerable<ConnectionDto>>> GetConnections([FromQuery] string startStation, [FromQuery] string endStation, [FromQuery] DateOnly date)
     {
         var connections = await _mediator.Send(new GetConnections(startStation, endStation, date));
         return Ok(connections);
