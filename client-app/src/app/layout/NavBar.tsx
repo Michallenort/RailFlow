@@ -5,7 +5,7 @@ import { useStore } from "../stores/store";
 
 export default observer(function NavBar() {
 
-  const {userStore : {isAdmin, logout, isLoggedIn}} = useStore();
+  const {userStore : {isAdmin, logout, isLoggedIn, isEmployee}} = useStore();
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark main-color py-3">
@@ -28,6 +28,12 @@ export default observer(function NavBar() {
                 Stations
               </NavLink>
             </li>
+            {isEmployee && 
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/emplouee-assignments">
+                Employee
+              </NavLink>
+            </li>}
             {isAdmin &&
             <li className="nav-item">
               <NavLink className="nav-link" to="/supervisor">

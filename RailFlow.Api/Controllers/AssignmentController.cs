@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RailFlow.Application.Assignments.Commands;
+using RailFlow.Application.Assignments.DTO;
 using RailFlow.Application.Assignments.Queries;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -25,7 +26,7 @@ public class AssignmentController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public async Task<IActionResult> GetAssignments([FromRoute] Guid scheduleId)
+    public async Task<ActionResult<IEnumerable<AssignmentDto>>> GetAssignments([FromRoute] Guid scheduleId)
     {
         var assignments = await _mediator.Send(new GetAssignments(scheduleId));
         return Ok(assignments);
@@ -38,7 +39,7 @@ public class AssignmentController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    public async Task<IActionResult> CreateAssignment(CreateAssignment command)
+    public async Task<ActionResult> CreateAssignment(CreateAssignment command)
     {
         await _mediator.Send(command);
         return Ok();
@@ -52,9 +53,23 @@ public class AssignmentController : ControllerBase
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> DeleteAssignment([FromRoute] Guid id)
+    public async Task<ActionResult> DeleteAssignment([FromRoute] Guid id)
     {
         await _mediator.Send(new DeleteAssignment(id));
         return NoContent();
     }
+    
+    [AllowAnonymous]
+    [HttpGet("employee/{employeeId:guid}")]
+    [SwaggerOperation("Get assignments by employee id")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    public async Task<ActionResult<IEnumerable<AssignmentsForEmployeeDto>>> GetAssignmentsByEmployeeId([FromRoute] Guid employeeId)
+    {
+        var assignments = await _mediator.Send(new GetAssignmentsForEmployee(employeeId));
+        return Ok(assignments);
+    }
+    
 }

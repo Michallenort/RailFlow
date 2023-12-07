@@ -9,7 +9,7 @@ import { Train, TrainFormValues } from "../models/train";
 import { Route, RouteDetails, RouteFormValues } from "../models/route";
 import { Stop, StopFormValues } from "../models/stop";
 import { Schedule, ScheduleDetails } from "../models/schedule";
-import { Assignment, AssignmentFormValues } from "../models/assignment";
+import EmployeeAssignment, { Assignment, AssignmentFormValues } from "../models/assignment";
 import { Connection } from "../models/connection";
 import { ReservationFormValues } from "../models/reservation";
 import { Config, PaymentIntent } from "../models/checkout";
@@ -92,6 +92,7 @@ const Schedules = {
 
 const Assignments = {
   list: (scheduleId: string) => requests.get<Assignment[]>(`/Assignment/${scheduleId}`),
+  employeeList: (userId: string) => requests.get<EmployeeAssignment[]>(`/Assignment/employee/${userId}`),
   create: (assignment: AssignmentFormValues) => requests.post('/Assignment', assignment),
   delete: (id: string) => requests.delete(`/Assignment/${id}`)
 }

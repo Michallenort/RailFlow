@@ -18,6 +18,8 @@ import CreateAssignment from '../../features/supervisor/CreateAssignment';
 import ConnectionDetails from '../../features/users/ConnectionDetails';
 import Payment from '../../features/checkout/Payment';
 import Completion from '../../features/checkout/Completion';
+import RequireEmployee from './RequireEmployee';
+import AssignmentsManagement from '../../features/employee/AssignmentsManagement';
 
 export const routes: RouteObject[] = [
 	{
@@ -42,6 +44,9 @@ export const routes: RouteObject[] = [
 				{path: 'create-stop/:routeId', element: <CreateStop />},
 				{path: 'schedule-details/:id', element: <ScheduleDetails />},
 				{path: 'create-assignment/:scheduleId', element: <CreateAssignment />}
+			]},
+			{element: <RequireEmployee />, children: [
+				{path: 'emplouee-assignments', element: <AssignmentsManagement />}
 			]}
 		]
 	}

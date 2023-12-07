@@ -21,6 +21,15 @@ internal class EmployeeAssignmentRepository : IEmployeeAssignmentRepository
             .AsNoTracking()
             .ToListAsync();
 
+    public async Task<IEnumerable<EmployeeAssignment>> GetByEmployeeIdAsync(Guid employeeId)
+        => await _employeeAssignments
+            .Where(x => x.UserId == employeeId)
+            .Include(x => x.User)
+            .Include(x => x.Schedule)
+            .ThenInclude(x => x.Route)
+            .AsNoTracking()
+            .ToListAsync();
+
     public async Task<EmployeeAssignment?> GetByIdAsync(Guid id)
         => await _employeeAssignments
             .SingleOrDefaultAsync(x => x.Id == id);

@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { Link, useParams } from "react-router-dom";
 import { useStore } from "../../app/stores/store";
 import { assign } from "mobx/dist/internal";
+import { useEffect } from "react";
 
 export default observer(function ScheduleDetails() {
   const {id} = useParams();

@@ -28,6 +28,10 @@ export default class UserStore {
     return this.loggedUser?.roleName === 'Supervisor';
   }
 
+  get isEmployee() {
+    return this.loggedUser?.roleName === 'Employee';
+  }
+
   loadUserDetails() {
     const userJson = getLocalStorageWithExpiry('user');
     if (userJson) {

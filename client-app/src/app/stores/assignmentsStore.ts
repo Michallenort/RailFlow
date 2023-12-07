@@ -1,10 +1,12 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { Assignment, AssignmentFormValues } from "../models/assignment";
+import EmployeeAssignment, { Assignment, AssignmentFormValues } from "../models/assignment";
 import { Pagination, PagingParams } from "../models/pagination";
 import agent from "../api/agent";
+import { store } from "./store";
 
 export default class AssignmentStore {
   selectedAssignments = new Map<string, Assignment>();
+  employeeAssignments = new Map<string, EmployeeAssignment>();
   isLoading = false;
   pagination: Pagination | null = null;
   pagingParams = new PagingParams();
@@ -26,8 +28,12 @@ export default class AssignmentStore {
     this.pagination = pagination;
   }
 
-  clearStops = () => {
+  clearAssignments = () => {
     this.selectedAssignments.clear();
+  }
+
+  clearEmployeeAssignments = () => {
+    this.employeeAssignments.clear();
   }
 
   get axiosParams() {
@@ -44,6 +50,41 @@ export default class AssignmentStore {
 
   setAssignment = (assignment: Assignment) => {
     this.selectedAssignments.set(assignment.id, assignment);
+  }
+
+  setEmployeeAssignment = (assignment: EmployeeAssignment) => {
+    this.employeeAssignments.set(assignment.id, assignment);
+  }
+
+  loadAssignments = async (scheduleId: string) => {
+    try {
+      this.isLoading = true;
+      this.clearAssignments();
+      const result = await agent.Assignments.list(scheduleId);
+      result.data.forEach((assignment: Assignment) => {
+        this.setAssignment(assignment);
+      });
+      this.isLoading = false;
+    } catch(error) {
+      console.log(error);
+      this.isLoading = false;
+    }
+  }
+
+  loadEmployeeAssignments = async () => {
+    try {
+      const userId = store.userStore.loggedUser?.id;
+      this.isLoading = true;
+      this.clearEmployeeAssignments();
+      const result = await agent.Assignments.employeeList(userId!);
+      result.data.forEach((assignment: EmployeeAssignment) => {
+        this.setEmployeeAssignment(assignment);
+      });
+      this.isLoading = false;
+    } catch(error) {
+      console.log(error);
+      this.isLoading = false;
+    }
   }
 
   createAssignment = async (assignment: AssignmentFormValues) => {

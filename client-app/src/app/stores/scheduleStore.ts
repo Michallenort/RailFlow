@@ -52,7 +52,7 @@ export default class ScheduleStore {
 	loadSchedules = async () => {
 		this.isLoading = true;
 		this.clearSchedules();
-
+		store.assignmentStore.clearAssignments();
 		try {
 			const result = await agent.Schedules.list(this.axiosParams)
 			result.data.items.forEach((schedule: Schedule) => {

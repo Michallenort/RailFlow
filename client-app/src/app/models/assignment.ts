@@ -6,6 +6,14 @@ export interface Assignment {
   endHour: string;
 }
 
+export default interface EmployeeAssignment {
+  id: string;
+  routeName: string;
+  date: Date;
+  startHour: string;
+  endHour: string;
+}
+
 export interface AssignmentFormValues {
   userEmail: string;
   scheduleId: string;
