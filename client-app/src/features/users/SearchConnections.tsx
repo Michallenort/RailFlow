@@ -2,10 +2,11 @@ import { observer } from 'mobx-react-lite'
 import { useState } from 'react'
 import { useStore } from '../../app/stores/store'
 import { set } from 'mobx'
+import { router } from '../../app/router/Routes'
 
 export default observer(function SearchConnections() {
 	const { connectionStore } = useStore()
-	const { connections, loadConnections } = connectionStore
+	const { connections, loadConnections, loadConnection } = connectionStore
 
 	const [startStationName, setStartStationName] = useState('')
 	const [endStationName, setEndStationName] = useState('')
@@ -21,6 +22,11 @@ export default observer(function SearchConnections() {
 			setDisplayWarning(false)
 			loadConnections(startStationName, endStationName, date)
 		}
+	}
+
+	const handleDetails = (id: number) => {
+		loadConnection(id);
+		router.navigate('/connection-details');
 	}
 
 	return (
@@ -103,13 +109,13 @@ export default observer(function SearchConnections() {
 						<tbody>
 							{connections.map((connection, index) => (
 								<tr key={String(index)}>
-									<td>{startStationName}</td>
-									<td>{}</td>
-									<td>{endStationName}</td>
-									<td>{}</td>
+									<td>{connection.startStationName}</td>
+									<td>{connection.startHour}</td>
+									<td>{connection.endStationName}</td>
+									<td>{connection.endHour}</td>
 									<td>{connection.price}</td>
 									<td>
-										<button className='btn btn-primary'>Details</button>
+										<button className='btn btn-primary' onClick={() => handleDetails(index)}>Details</button>
 									</td>
 								</tr>
 							))}

@@ -15,6 +15,9 @@ import StationSchedule from '../../features/users/StationSchedule';
 import SearchConnections from '../../features/users/SearchConnections';
 import ScheduleDetails from '../../features/supervisor/ScheduleDetails';
 import CreateAssignment from '../../features/supervisor/CreateAssignment';
+import ConnectionDetails from '../../features/users/ConnectionDetails';
+import Payment from '../../features/checkout/Payment';
+import Completion from '../../features/checkout/Completion';
 
 export const routes: RouteObject[] = [
 	{
@@ -26,6 +29,9 @@ export const routes: RouteObject[] = [
 			{path: 'stations', element: <StationsList />},
 			{path: 'stations/:id', element: <StationSchedule />},
 			{path: 'search', element: <SearchConnections />},
+			{path: 'connection-details', element: <ConnectionDetails />},
+			{path: 'payment', element: <Payment />},
+			{path: 'completion', element: <Completion />},
 			{element: <RequireAdmin />, children: [
 				{path: 'supervisor', element: <SupervisorPage />},
 				{path: 'create-station', element: <CreateStation />},

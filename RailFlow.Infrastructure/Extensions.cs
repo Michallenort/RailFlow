@@ -13,6 +13,7 @@ using RailFlow.Infrastructure.Services;
 using RailFlow.Infrastructure.DAL;
 using RailFlow.Infrastructure.Exceptions;
 using RailFlow.Infrastructure.Security;
+using Stripe;
 
 namespace RailFlow.Infrastructure;
 
@@ -21,7 +22,8 @@ public static class Extensions
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         // Add services to the container.
-
+        StripeConfiguration.ApiKey = configuration["Stripe:SecretKey"];
+        
         services.AddControllers();
         services.AddSingleton<ExceptionMiddleware>();
         services.AddHttpContextAccessor();
@@ -57,7 +59,6 @@ public static class Extensions
         services.AddAuth(configuration);
         services.AddScoped<IContextService, ContextService>();
         services.AddScoped<IScheduleService, ScheduleService>();
-        services.AddScoped<IConnectionService, ConnectionService>();
         
         return services;
     }

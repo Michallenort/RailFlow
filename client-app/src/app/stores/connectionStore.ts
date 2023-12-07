@@ -36,7 +36,7 @@ export default class ConnectionStore {
 	}
 
 	loadConnection = async (id: number) => {
-	  this.clearConnections();
+		this.selectedConnection = undefined;
 		let connection = this.getConnection(id);
 		if (connection) {
 			this.selectedConnection = connection;

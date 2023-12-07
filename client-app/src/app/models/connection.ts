@@ -8,5 +8,9 @@ export interface SubConnection {
 
 export interface Connection {
   subConnections: SubConnection[];
+  startStationName: string;
+  endStationName: string;
+  startHour: string;
+  endHour: string;
   price: number
 }

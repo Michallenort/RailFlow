@@ -21,7 +21,7 @@ internal class ConnectionMapper : IConnectionMapper
                     y.Schedule.Route.Id, y.Schedule.Route.Name, y.Schedule.Route.StartStation!.Name, 
                     y.Schedule.Route.EndStation!.Name, y.Schedule.Route.Train!.Number, y.Schedule.Route.IsActive)),
                 y.Stops.Select(z => new StopDto(z.Id, z.ArrivalHour, z.DepartureHour, z.Station.Name))
-            )), x.Price
+            )), x.StartStationName, x.EndStationName, x.StartHour, x.EndHour, x.Price
         ));
     }
 }

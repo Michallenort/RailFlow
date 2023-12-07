@@ -13,7 +13,7 @@ internal sealed class TrainDbContext : DbContext
     public DbSet<Stop> Stops { get; set; }
     public DbSet<Schedule> Schedules { get; set; }
     public DbSet<EmployeeAssignment> EmployeeAssignments { get; set; }
-    
+    public DbSet<Reservation> Reservations { get; set; }
     public TrainDbContext(DbContextOptions<TrainDbContext> options) : base(options)
     {
     }

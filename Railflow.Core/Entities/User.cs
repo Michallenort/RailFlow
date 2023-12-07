@@ -13,6 +13,8 @@ public class User
     public int RoleId { get; private set; }
     public Role Role { get; private set; }
     
+    public ICollection<Reservation> Reservations { get; private set; }
+    
     public ICollection<EmployeeAssignment> EmployeeAssignments { get; private set; }
 
     public User()

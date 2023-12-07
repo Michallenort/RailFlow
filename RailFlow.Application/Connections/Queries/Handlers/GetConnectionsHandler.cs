@@ -39,10 +39,13 @@ internal class GetConnectionsHandler : IRequestHandler<GetConnections, IEnumerab
                             .FirstOrDefault(stop => stop.Station.Name == request.StartStation)!.DepartureHour && 
                         x.DepartureHour < schedule.Route.Stops.FirstOrDefault(stop => stop.Station.Name == request.EndStation)!
                             .ArrivalHour)),
-                }, schedule.Route.Stops.Count(x => x.ArrivalHour > schedule.Route.Stops
+                },request.StartStation, request.EndStation, 
+                schedule.Route.Stops.FirstOrDefault(x => x.Station.Name == request.StartStation).ArrivalHour,
+                schedule.Route.Stops.FirstOrDefault(x => x.Station.Name == request.EndStation).DepartureHour,
+                schedule.Route.Stops.Count(x => x.ArrivalHour > schedule.Route.Stops
                                                        .FirstOrDefault(stop => stop.Station.Name == request.StartStation)!.DepartureHour && 
                                                    x.DepartureHour < schedule.Route.Stops.FirstOrDefault(stop => stop.Station.Name == request.EndStation)!
-                                                       .ArrivalHour) * 0.08f)));
+                                                       .ArrivalHour) * 2)));
         }
 
         var schedulesWithStartStation = schedules
@@ -85,8 +88,11 @@ internal class GetConnectionsHandler : IRequestHandler<GetConnections, IEnumerab
                                     .ArrivalHour >= stop.ArrivalHour).OrderBy(x => x.ArrivalHour));
                         
                         schedulesWithTransfer.Add(new Connection(
-                            new List<SubConnection>() {startConnection, transferConnection}, 
-                            (startConnection.Stops.Count() + transferConnection.Stops.Count()) * 0.08f));
+                            new List<SubConnection>() {startConnection, transferConnection},
+                            request.StartStation, request.EndStation, 
+                            startConnection.Stops.FirstOrDefault(x => x.Station.Name == request.StartStation).ArrivalHour,
+                            transferConnection.Stops.FirstOrDefault(x => x.Station.Name == request.EndStation).DepartureHour,
+                            (startConnection.Stops.Count() + transferConnection.Stops.Count()) * 2));
                     }
                 }
             }
