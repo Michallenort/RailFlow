@@ -7,6 +7,9 @@ using RailFlow.Application.Assignments;
 using RailFlow.Application.Assignments.Commands;
 using RailFlow.Application.Assignments.Validators;
 using RailFlow.Application.Connections;
+using RailFlow.Application.Reservations;
+using RailFlow.Application.Reservations.Commands;
+using RailFlow.Application.Reservations.Validators;
 using RailFlow.Application.Routes;
 using RailFlow.Application.Routes.Commands;
 using RailFlow.Application.Routes.Validators;
@@ -49,6 +52,7 @@ public static class Extensions
         services.AddScoped<IValidator<CreateStop>, CreateStopValidator>();
         services.AddScoped<IValidator<UpdateRoute>, UpdateRouteValidator>();
         services.AddScoped<IValidator<CreateAssignment>, CreateAssignmentValidator>();
+        services.AddScoped<IValidator<AddReservation>, AddReservationValidator>();
         
         services.AddScoped<IUserMapper, UserMapper>();
         services.AddScoped<IStationMapper, StationMapper>();
@@ -58,6 +62,7 @@ public static class Extensions
         services.AddScoped<IConnectionMapper, ConnectionMapper>();
         services.AddScoped<IAssignmentMapper, AssignmentMapper>();
         services.AddScoped<IScheduleMapper, ScheduleMapper>();
+        services.AddScoped<IReservationMapper, ReservationMapper>();
         
         return services;
     }

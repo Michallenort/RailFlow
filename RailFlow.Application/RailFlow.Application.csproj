@@ -12,9 +12,11 @@
 
     <ItemGroup>
       <PackageReference Include="FluentValidation" Version="11.7.1" />
+      <PackageReference Include="iTextSharp" Version="5.5.13.3" />
       <PackageReference Include="MediatR" Version="12.1.1" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
       <PackageReference Include="Scrutor" Version="4.2.2" />
       <PackageReference Include="Stripe.net" Version="43.5.0" />
+      <PackageReference Include="supabase-csharp" Version="0.13.7" />
     </ItemGroup>
 </Project>

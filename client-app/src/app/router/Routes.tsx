@@ -20,6 +20,8 @@ import Payment from '../../features/checkout/Payment';
 import Completion from '../../features/checkout/Completion';
 import RequireEmployee from './RequireEmployee';
 import AssignmentsManagement from '../../features/employee/AssignmentsManagement';
+import RequireAuth from './RequireAuth';
+import ReservationsList from '../../features/loggedUser/ReservationsList';
 
 export const routes: RouteObject[] = [
 	{
@@ -34,6 +36,9 @@ export const routes: RouteObject[] = [
 			{path: 'connection-details', element: <ConnectionDetails />},
 			{path: 'payment', element: <Payment />},
 			{path: 'completion', element: <Completion />},
+			{element: <RequireAuth />, children: [
+				{path: 'reservations', element: <ReservationsList />}
+			]},
 			{element: <RequireAdmin />, children: [
 				{path: 'supervisor', element: <SupervisorPage />},
 				{path: 'create-station', element: <CreateStation />},

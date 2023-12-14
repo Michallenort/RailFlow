@@ -16,7 +16,11 @@ internal sealed class ReservationConfiguration : IEntityTypeConfiguration<Reserv
         builder.Property(x => x.FirstScheduleId);
         builder.Property(x => x.StartStopId)
             .IsRequired();
+        builder.Property(x => x.StartHour)
+            .IsRequired();
         builder.Property(x => x.EndStopId)
+            .IsRequired();
+        builder.Property(x => x.EndHour)
             .IsRequired();
         builder.Property(x => x.Price)
             .IsRequired();

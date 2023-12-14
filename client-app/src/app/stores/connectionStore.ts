@@ -1,6 +1,7 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, reaction } from "mobx";
 import { Connection } from "../models/connection";
 import agent from "../api/agent";
+import { getLocalStorageWithExpiry, removeLocalStorage, setLocalStorageWithExpiry } from "./localStorageHandler";
 
 export default class ConnectionStore {
   connections = new Array<Connection>();
@@ -9,6 +10,20 @@ export default class ConnectionStore {
 
   constructor() {
     makeAutoObservable(this);
+
+		const connectionJson : Connection = getLocalStorageWithExpiry('selectedConnection');
+		this.selectedConnection = connectionJson;
+
+		reaction(
+			() => this.selectedConnection,
+			selectedConnection => {
+				if (selectedConnection) {
+					setLocalStorageWithExpiry('selectedConnection', selectedConnection, 1);
+				} else {
+					removeLocalStorage('selectedConnection');
+				}
+			}
+		);
   }
 
   private setConnection = (connection: Connection) => {

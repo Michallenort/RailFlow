@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RailFlow.Infrastructure.DAL;
@@ -11,9 +12,11 @@ using RailFlow.Infrastructure.DAL;
 namespace RailFlow.Infrastructure.Migrations
 {
     [DbContext(typeof(TrainDbContext))]
-    partial class TrainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231210173352_ReservationUpdate")]
+    partial class ReservationUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,9 +61,6 @@ namespace RailFlow.Infrastructure.Migrations
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
-                    b.Property<TimeOnly>("EndHour")
-                        .HasColumnType("time without time zone");
-
                     b.Property<Guid>("EndStopId")
                         .HasColumnType("uuid");
 
@@ -72,9 +72,6 @@ namespace RailFlow.Infrastructure.Migrations
 
                     b.Property<Guid?>("SecondScheduleId")
                         .HasColumnType("uuid");
-
-                    b.Property<TimeOnly>("StartHour")
-                        .HasColumnType("time without time zone");
 
                     b.Property<Guid>("StartStopId")
                         .HasColumnType("uuid");

@@ -9,6 +9,7 @@ import ScheduleStore from "./scheduleStore";
 import AssignmentStore from "./assignmentsStore";
 import ConnectionStore from "./connectionStore";
 import CheckoutStore from "./checkoutStore";
+import ReservationStore from "./reservationStore";
 
 interface Store {
   userStore: UserStore;
@@ -21,6 +22,7 @@ interface Store {
   assignmentStore: AssignmentStore;
   connectionStore: ConnectionStore;
   checkoutStore: CheckoutStore;
+  reservationStore: ReservationStore;
 }
 
 export const store: Store = {
@@ -33,7 +35,8 @@ export const store: Store = {
   scheduleStore: new ScheduleStore(),
   assignmentStore: new AssignmentStore(),
   connectionStore: new ConnectionStore(),
-  checkoutStore: new CheckoutStore()
+  checkoutStore: new CheckoutStore(),
+  reservationStore: new ReservationStore()
 }
 
 export const StoreContext = createContext(store);

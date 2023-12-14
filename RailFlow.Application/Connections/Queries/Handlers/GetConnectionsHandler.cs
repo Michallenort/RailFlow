@@ -39,7 +39,10 @@ internal class GetConnectionsHandler : IRequestHandler<GetConnections, IEnumerab
                             .FirstOrDefault(stop => stop.Station.Name == request.StartStation)!.DepartureHour && 
                         x.DepartureHour < schedule.Route.Stops.FirstOrDefault(stop => stop.Station.Name == request.EndStation)!
                             .ArrivalHour)),
-                },request.StartStation, request.EndStation, 
+                }, schedule.Route.Stops.FirstOrDefault(x => x.Station.Name == request.StartStation).Id, 
+                request.StartStation,
+                schedule.Route.Stops.FirstOrDefault(x => x.Station.Name == request.EndStation).Id,
+                request.EndStation, 
                 schedule.Route.Stops.FirstOrDefault(x => x.Station.Name == request.StartStation).ArrivalHour,
                 schedule.Route.Stops.FirstOrDefault(x => x.Station.Name == request.EndStation).DepartureHour,
                 schedule.Route.Stops.Count(x => x.ArrivalHour > schedule.Route.Stops
@@ -89,7 +92,10 @@ internal class GetConnectionsHandler : IRequestHandler<GetConnections, IEnumerab
                         
                         schedulesWithTransfer.Add(new Connection(
                             new List<SubConnection>() {startConnection, transferConnection},
-                            request.StartStation, request.EndStation, 
+                            startConnection.Stops.FirstOrDefault(x => x.Station.Name == request.StartStation)!.Id,
+                            request.StartStation,
+                            transferConnection.Stops.FirstOrDefault(x => x.Station.Name == request.EndStation)!.Id,
+                            request.EndStation, 
                             startConnection.Stops.FirstOrDefault(x => x.Station.Name == request.StartStation).ArrivalHour,
                             transferConnection.Stops.FirstOrDefault(x => x.Station.Name == request.EndStation).DepartureHour,
                             (startConnection.Stops.Count() + transferConnection.Stops.Count()) * 2));

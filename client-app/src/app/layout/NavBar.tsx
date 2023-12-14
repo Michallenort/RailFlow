@@ -28,6 +28,12 @@ export default observer(function NavBar() {
                 Stations
               </NavLink>
             </li>
+            {isLoggedIn &&
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/reservations">
+                  Reservations
+                </NavLink>
+            </li>}
             {isEmployee && 
             <li className="nav-item">
               <NavLink className="nav-link" to="/emplouee-assignments">

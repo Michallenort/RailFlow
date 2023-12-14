@@ -11,7 +11,7 @@ import { Stop, StopFormValues } from "../models/stop";
 import { Schedule, ScheduleDetails } from "../models/schedule";
 import EmployeeAssignment, { Assignment, AssignmentFormValues } from "../models/assignment";
 import { Connection } from "../models/connection";
-import { ReservationFormValues } from "../models/reservation";
+import { Reservation, ReservationFormValues } from "../models/reservation";
 import { Config, PaymentIntent } from "../models/checkout";
 
 axios.defaults.baseURL = "https://localhost:44363";
@@ -102,6 +102,13 @@ const Connections = {
     `/Connection?startStation=${startStation}&endStation=${endStation}&date=${date}`) 
 }
 
+const Reservations = {
+  list: (userId: string) => requests.get<Reservation[]>(`/Reservation/${userId}`),
+  create: (reservation: ReservationFormValues) => requests.post('/Reservation', reservation),
+  cancel: (id: string) => requests.delete(`/Reservation/${id}`),
+  generateTicket: (id: string) => axios.post(`/Reservation/generate-pdf/${id}`)
+}
+
 const Checkouts = {
   config: () => requests.get<Config>(`/Checkout/config`),
   createPaymentIntent: (intent: PaymentIntent) => requests.post("/Checkout/create-payment-intent", intent)
@@ -116,7 +123,8 @@ const agent = {
   Schedules,
   Assignments,
   Connections,
-  Checkouts
+  Checkouts,
+  Reservations
 }
 
 export default agent;

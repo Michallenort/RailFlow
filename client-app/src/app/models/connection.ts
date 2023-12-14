@@ -8,7 +8,9 @@ export interface SubConnection {
 
 export interface Connection {
   subConnections: SubConnection[];
+  startStopId: string;
   startStationName: string;
+  endStopId: string;
   endStationName: string;
   startHour: string;
   endHour: string;

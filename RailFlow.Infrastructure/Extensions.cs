@@ -29,6 +29,7 @@ public static class Extensions
         services.AddHttpContextAccessor();
 
         services.AddPostgres(configuration);
+        services.AddStorage(configuration);
         services.AddSecurity();
 
         JobStorage.Current = new InMemoryStorage();

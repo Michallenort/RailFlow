@@ -1,12 +1,10 @@
 export interface Reservation {
   id: string;
   date: Date;
-  userId: string;
-  firstScheduleId: string;
-  secondScheduleId?: string;
   startStopName: string;
+  startHour: string;
   endStopName: string;
-  transferStopName?: string;
+  endHour: string;
   price: number;
 }
 
@@ -15,8 +13,9 @@ export interface ReservationFormValues {
   userId: string;
   firstScheduleId: string;
   secondScheduleId?: string;
-  startStopName: string;
-  endStopName: string;
-  transferStopName?: string;
+  startStopId: string;
+  startHour: string
+  endStopId: string;
+  endHour: string;
   price: number;
 }
