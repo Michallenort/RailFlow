@@ -12,6 +12,7 @@ export default observer(function AssignmentsManagement() {
 
   return (
     <div className='container mt-5'>
+      <h1>Work Schedule</h1>
       <table className="table align-middle mb-0 bg-white">
       <thead className="bg-light">
         <tr>

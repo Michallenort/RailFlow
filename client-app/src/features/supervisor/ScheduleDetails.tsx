@@ -11,6 +11,7 @@ export default observer(function ScheduleDetails() {
 
   return (
     <div className='container mt-5'>
+      <h1>Schedule Details</h1>
     <Link type="button" className="btn btn-primary" to={`/create-assignment/${id}`}>Add Assignment</Link>
     <table className="table align-middle mb-0 bg-white">
       <thead className="bg-light">

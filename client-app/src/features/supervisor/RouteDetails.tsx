@@ -9,6 +9,7 @@ export default observer(function RouteDetails() {
 
   return (
     <div className='container mt-5'>
+      <h1>Route Details</h1>
     <Link type="button" className="btn btn-primary" to={`/create-stop/${id}`}>Add Stop</Link>
     <table className="table align-middle mb-0 bg-white">
       <thead className="bg-light">

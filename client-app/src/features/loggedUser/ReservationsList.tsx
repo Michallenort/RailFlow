@@ -36,7 +36,8 @@ export default observer(function ReservationsList() {
 
   return (
     <div className='container mt-5'>
-    <table className="table align-middle mb-0 bg-white">
+    <h1 className="text-center">My Reservations</h1>
+    <table className="table align-middle mt-2 mb-0 bg-white">
       <thead className="bg-light">
         <tr>
           <th>Date</th>

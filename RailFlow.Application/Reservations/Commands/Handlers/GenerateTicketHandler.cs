@@ -43,13 +43,13 @@ internal sealed class GenerateTicketHandler : IRequestHandler<GenerateTicket, st
         
         document.Add(new Paragraph("", font));
         
-        int numColumns = 7;
+        int numColumns = 2;
         
-        if (reservation.SecondScheduleId is not null)
-            numColumns++;
-        
-        if (reservation.TransferStopId is not null)
-            numColumns++;
+        // if (reservation.SecondScheduleId is not null)
+        //     numColumns++;
+        //
+        // if (reservation.TransferStopId is not null)
+        //     numColumns++;
         
         PdfPTable table = new PdfPTable(numColumns);
         var columnWidths = Enumerable.Repeat(1f, numColumns).ToArray();
@@ -57,44 +57,43 @@ internal sealed class GenerateTicketHandler : IRequestHandler<GenerateTicket, st
         
         Font tableFont = new Font(Font.FontFamily.TIMES_ROMAN, 10, Font.NORMAL);
         table.DefaultCell.Phrase = new Phrase { Font = tableFont };
+
+        table.AddCell(new Phrase("Owner", tableFont));
+        table.AddCell(new Phrase(reservation.User.Email, tableFont));
         
         table.AddCell(new Phrase("Date", tableFont));
-        table.AddCell(new Phrase("First Schedule", tableFont));
-
-        if (reservation.SecondScheduleId is not null)
-            table.AddCell(new Phrase("Second Schedule", tableFont));
-
-        table.AddCell(new Phrase("Start Stop", tableFont));
-        table.AddCell(new Phrase("Start Hour", tableFont));
-        table.AddCell(new Phrase("End Stop", tableFont));
-        table.AddCell(new Phrase("End Hour", tableFont));
-
-        if (reservation.TransferStopId is not null)
-            table.AddCell(new Phrase("Transfer Stop", tableFont));
-
-        table.AddCell(new Phrase("Price", tableFont));
-        
         table.AddCell(new Phrase(reservation.Date.ToString(), tableFont));
-        table.AddCell(new Phrase(reservation.FirstSchedule.Route.Name, tableFont));
         
+        table.AddCell(new Phrase("First Schedule", tableFont));
+        table.AddCell(new Phrase(reservation.FirstSchedule.Route.Name, tableFont));
+
         if (reservation.SecondScheduleId is not null)
         {
+            table.AddCell(new Phrase("Second Schedule", tableFont));
             var route = await _routeRepository.GetByIdAsync(reservation.SecondSchedule!.RouteId);
             table.AddCell(new Phrase(route!.Name, tableFont));
         }
-        
+
+        table.AddCell(new Phrase("Start Stop", tableFont));
         table.AddCell(new Phrase(reservation.StartStop.Station.Name, tableFont));
+        
+        table.AddCell(new Phrase("Start Hour", tableFont));
         table.AddCell(new Phrase(reservation.StartHour.ToString(), tableFont));
         
+        table.AddCell(new Phrase("End Stop", tableFont));
         table.AddCell(new Phrase(reservation.EndStop.Station.Name, tableFont));
+        
+        table.AddCell(new Phrase("End Hour", tableFont));
         table.AddCell(new Phrase(reservation.EndHour.ToString(), tableFont));
         
         if (reservation.TransferStopId is not null)
         {
+            table.AddCell(new Phrase("Transfer Stop", tableFont));
             var stop = await _stopRepository.GetByIdAsync(reservation.TransferStopId.Value);
             table.AddCell(new Phrase(stop!.Station.Name, tableFont));
         }
         
+        table.AddCell(new Phrase("Price", tableFont));
         table.AddCell(new Phrase(reservation.Price.ToString(), tableFont));
         
         table.TotalWidth = 500f;

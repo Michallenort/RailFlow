@@ -28,6 +28,7 @@ internal sealed class ReservationRepository : IReservationRepository
 
     public async Task<Reservation?> GetByIdAsync(Guid id)
         => await _reservations
+            .Include(x => x.User)
             .Include(x => x.FirstSchedule)
             .ThenInclude(x => x.Route)
             .Include(x => x.SecondSchedule)

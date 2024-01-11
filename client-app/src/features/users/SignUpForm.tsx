@@ -157,7 +157,7 @@ export default observer(function SignUpForm() {
                     value={confirmPassword}
                     />
                 </div>
-                <button type="submit" className="btn btn-primary btn-block" onClick={e => handleSubmit(e)}>Sign in</button>
+                <button type="submit" className="btn btn-primary btn-block" onClick={e => handleSubmit(e)}>Sign up</button>
               </form>
             </div>
           </div>

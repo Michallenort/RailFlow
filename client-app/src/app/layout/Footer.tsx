@@ -15,7 +15,7 @@ export default function Footer() {
 					</li>
 					<li className='nav-item'>
 						<Link to='/search' className='nav-link px-2 text-white'>
-							Search Books
+							Search Connections
 						</Link>
 					</li>
 				</ul>

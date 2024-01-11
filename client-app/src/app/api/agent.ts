@@ -14,7 +14,7 @@ import { Connection } from "../models/connection";
 import { Reservation, ReservationFormValues } from "../models/reservation";
 import { Config, PaymentIntent } from "../models/checkout";
 
-axios.defaults.baseURL = "https://localhost:44363";
+axios.defaults.baseURL = "http://localhost:44363";
 
 const responseBody = (response: AxiosResponse) => response;
 

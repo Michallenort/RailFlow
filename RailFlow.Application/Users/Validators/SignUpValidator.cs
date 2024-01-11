@@ -47,6 +47,4 @@ internal sealed class SignUpValidator : AbstractValidator<SignUp>
                 }
             });
     }
-    
-    
 }
